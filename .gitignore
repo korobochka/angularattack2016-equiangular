@@ -5,3 +5,5 @@ src/app/**/*.js.map
 backend/.idea
 backend/backend.iml
 backend/target
+dist
+.idea
