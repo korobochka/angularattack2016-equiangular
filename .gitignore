@@ -6,3 +6,4 @@ backend/.idea
 backend/backend.iml
 backend/target
 dist
+.idea
