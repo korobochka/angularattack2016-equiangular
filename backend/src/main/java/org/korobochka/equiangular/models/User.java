@@ -36,10 +36,6 @@ public class User {
 	}
 
 	public void removeIntendedSkill(String selectedSkill) {
-		this.intendedSkills.forEach(skill -> {
-			if (skill.equals(selectedSkill)) {
-				this.intendedSkills.remove(skill);
-			}
-		});
+		intendedSkills.removeIf(skill -> selectedSkill.equals(skill));
 	}
 }
