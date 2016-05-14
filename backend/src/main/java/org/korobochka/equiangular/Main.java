@@ -91,7 +91,7 @@ public class Main {
 		before((request, response) -> {
 			String originH = request.headers("Origin").replaceAll("http://|https://", "");
 			if(originH.startsWith("localhost:")) {
-				response.header("Access-Control-Allow-Origin", originH);
+				response.header("Access-Control-Allow-Origin", request.headers("Origin"));
 			} else {
 				response.header("Access-Control-Allow-Origin", origin);
 			}
