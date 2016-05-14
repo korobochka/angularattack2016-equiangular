@@ -15,7 +15,7 @@ import static spark.Spark.*;
  */
 public class Main {
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
-	private static final Gson gson = new GsonBuilder()
+	public static final Gson gson = new GsonBuilder()
 			.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)
 			.create();
 
@@ -69,6 +69,7 @@ public class Main {
 		});
 
 		TestService.initRoutes();
+		AuthService.initRoutes();
 }
 
 	private static void enableCORS(final String origin, final String methods, final String headers) {
@@ -88,7 +89,11 @@ public class Main {
 		});
 
 		before((request, response) -> {
-			response.header("Access-Control-Allow-Origin", origin);
+			if(request.headers("Host").startsWith("localhost:")) {
+				response.header("Access-Control-Allow-Origin", request.headers("Host"));
+			} else {
+				response.header("Access-Control-Allow-Origin", origin);
+			}
 			response.header("Access-Control-Request-Method", methods);
 			response.header("Access-Control-Allow-Headers", headers);
 		});
