@@ -19,8 +19,6 @@ const METADATA = webpackMerge(commonConfig.metadata, {
     HMR: HMR
 });
 
-console.log(METADATA);
-
 /**
  * Webpack configuration
  *

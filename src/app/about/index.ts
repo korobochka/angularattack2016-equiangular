@@ -25,6 +25,40 @@ import { Component } from '@angular/core';
     <h1>
       hello to all!
     </h1>
+    <markdown>
+    # H1
+    ## H2
+    Some text here
+    #### Emphasis
+    *single asterisks*
+    
+    _single underscores_
+    
+    **double asterisks**
+    
+    __double underscores__
+    
+    #### Code
+    \`\`There is a literal backtick (\`) here.\`\`
+    
+    #### Lists and horizontal seprators
+    This is [an example](http://example.com/ "Title") inline link.
+    * * *
+    *   Red
+    *   Green
+    *   Blue
+    ***
+    +   Red
+    +   Green
+    +   Blue
+    *****
+    -   Red
+    -   Green
+    -   Blue
+
+    #### Images
+    ![Alt text](http://s2.quickmeme.com/img/d0/d0374478557798edfc964afd006512de457207f70346d8e2ef524a98afd73578.jpg "Optional title")
+    </markdown>
   </md-card>
 
   `
@@ -35,13 +69,13 @@ export class About {
     }
 
     ngOnInit() {
-        console.log('hello `About` component');
         // static data that is bundled
         // var mockData = require('assets/mock-data/mock-data.json');
         // console.log('mockData', mockData);
         // if you're working with mock data you can also use http.get('assets/mock-data/mock-data.json')
         // this.asyncDataWithWebpack();
     }
+
     asyncDataWithWebpack() {
         // you can also async load mock data with 'es6-promise-loader'
         // you would do this if you don't want the mock-data bundled
