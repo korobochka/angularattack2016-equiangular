@@ -12,8 +12,8 @@ import com.google.gson.Gson;
  * Created by lgarswood on 5/14/16.
  */
 
-public class ApiService {
-	private static final Logger log = LoggerFactory.getLogger(ApiService.class);
+public class TestService {
+	private static final Logger log = LoggerFactory.getLogger(TestService.class);
 
 	public static void initRoutes() {
 		get("/api/test/next_question", (req, res) -> {

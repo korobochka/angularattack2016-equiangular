@@ -68,7 +68,7 @@ public class Main {
 			return "OK";
 		});
 
-		ApiService.initRoutes();
+		TestService.initRoutes();
 }
 
 	private static void enableCORS(final String origin, final String methods, final String headers) {
