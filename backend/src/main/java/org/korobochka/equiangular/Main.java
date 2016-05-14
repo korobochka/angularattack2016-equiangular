@@ -60,7 +60,12 @@ public class Main {
 		// todo security
 		post("/reload/4401dba7-2528-455d-a1d4-3e05d2ab4281", (request, response) -> {
 			log.info("Got github hook and stopping to update!");
-			stop();
+			new Thread(() -> {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ignore) {}
+				stop();
+			}).start();
 			return "OK";
 		});
 	}
