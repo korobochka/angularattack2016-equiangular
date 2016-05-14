@@ -5,7 +5,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { RouteConfig, Router } from '@angular/router-deprecated';
 
 import { AppState } from './app.service';
-//import { Home } from './home';
 import { RouterActive } from './router-active';
 
 /*
@@ -26,18 +25,18 @@ import { RouterActive } from './router-active';
     <md-content>
       <md-toolbar color="primary">
           <button md-button router-active [routerLink]=" ['About'] ">
-            Index
+            About
           </button>
 
-          <button md-button router-active [routerLink]=" ['About'] ">
-            Profile
+          <button md-button router-active [routerLink]=" ['Markdown'] ">
+            Markdown
+          </button>
+
+          <button md-button router-active [routerLink]=" ['API'] ">
+            API
           </button>
 
           <span class="fill"></span>
-
-          <button md-button router-active [routerLink]=" ['About'] ">
-            About
-          </button>
 
           <button md-raised-button>
             Raised Button
@@ -51,8 +50,7 @@ import { RouterActive } from './router-active';
       <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
       
       <footer>
-        <img [src]="angularclassLogo" width="6%">
-        &copy; Equiangular 2016
+        &copy; Made by Equiangular Team for&nbsp;<a href="https://www.angularattack.com/" target="_blank">Angular Attack</a>&nbsp;hackathon. May 14-15, 2016
       </footer>
       </md-content>
   `
@@ -61,13 +59,12 @@ import { RouterActive } from './router-active';
 //    { path: '/',      name: 'Index', component: Home, useAsDefault: true },
 //    { path: '/home',  name: 'Home',  component: Home },
     // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-    { path: '/', name: 'About', useAsDefault: true, loader: () => require('es6-promise!./about')('About') }
+    { path: '/', name: 'About', useAsDefault: true, loader: () => require('es6-promise!./PageAbout')('PageAboutComponent') },
+    { path: '/markdown', name: 'Markdown', loader: () => require('es6-promise!./PageMarkdown')('PageMarkdownComponent') },
+    { path: '/api', name: 'API', loader: () => require('es6-promise!./PageAPI')('PageAPIComponent') }
 ])
 export class App {
-    angularclassLogo = 'assets/img/angularclass-avatar.png';
     loading = false;
-    name = 'Angular 2 Webpack Starter';
-    url = 'https://twitter.com/AngularClass';
 
     constructor(
         public appState: AppState) {
