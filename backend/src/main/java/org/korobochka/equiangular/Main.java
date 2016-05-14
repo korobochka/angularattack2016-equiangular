@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		externalStaticFileLocation("../dist");
-		enableCORS("*.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
+		enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
 		exception(CustomException.class, (exception, request, response) -> {
 			response.status(HttpStatus.FORBIDDEN_403);
