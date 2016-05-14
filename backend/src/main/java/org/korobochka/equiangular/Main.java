@@ -15,7 +15,7 @@ import static spark.Spark.*;
  */
 public class Main {
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
-	public static final Gson gson = new GsonBuilder()
+	static final Gson gson = new GsonBuilder()
 			.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)
 			.create();
 
@@ -70,6 +70,7 @@ public class Main {
 
 		TestService.initRoutes();
 		AuthService.initRoutes();
+		SkillService.initRoutes();
 }
 
 	private static void enableCORS(final String origin, final String methods, final String headers) {
