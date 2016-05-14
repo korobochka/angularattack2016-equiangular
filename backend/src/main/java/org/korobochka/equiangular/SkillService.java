@@ -18,31 +18,34 @@ class SkillService {
 
 	static void initRoutes() {
 		get("/api/skills", (req, res) -> { // TODO have select from an identity and probably take skill type
-			return Main.gson.toJson(getUserIntendedSkills(null));
+			User user = AuthService.getCurrentUser(req);
+			return Main.gson.toJson(getUserIntendedSkills(user));
 		});
 		post("/api/skills", (req, res) -> {
+			User user = AuthService.getCurrentUser(req);
 			String skill = req.body();
 			log.info("Adding new intended skill: " + skill);
-			addUserIntendedSkills(null, skill);
+			addUserIntendedSkills(user, skill);
 			return Main.gson.toJson("Saved intended skill: " + skill);
 		});
 		delete("/api/skills", (req, res) -> {
+			User user = AuthService.getCurrentUser(req);
 			String skill = req.body();
 			log.info("Removing new intended skill: " + skill);
-			removeUserIntendedSkills(null, skill);
+			removeUserIntendedSkills(user, skill);
 			return Main.gson.toJson("Removed intended skill: " + skill);
 		});
 	}
 
 	private static void removeUserIntendedSkills(User user, String skill) {
-		new User().removeIntendedSkill(skill);
+		user.removeIntendedSkill(skill);
 	}
 
 	private static void addUserIntendedSkills(User user, String skill) {
-		new User().getIntendedSkills().add(skill);
+		user.getIntendedSkills().add(skill);
 	}
 
 	private static List<String> getUserIntendedSkills(User user) {
-		return new User().getIntendedSkills();
+		return user.getIntendedSkills();
 	}
 }
