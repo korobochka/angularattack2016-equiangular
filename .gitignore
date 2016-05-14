@@ -1,6 +1,6 @@
 node_modules
 typings
-npm-debug.log
+*.log
 src/app/**/*.js
 src/app/**/*.js.map
 backend/.idea
