@@ -2,7 +2,6 @@ package org.korobochka.equiangular;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,7 @@ public class Main {
 			.create();
 
 	public static void main(String[] args) {
+		externalStaticFileLocation("../dist");
 		enableCORS("*.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
 		exception(CustomException.class, (exception, request, response) -> {
