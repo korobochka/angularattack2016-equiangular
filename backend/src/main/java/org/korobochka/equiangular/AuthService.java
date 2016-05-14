@@ -3,7 +3,11 @@ package org.korobochka.equiangular;
 import com.github.scribejava.apis.LinkedInApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.korobochka.equiangular.models.LIProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +21,8 @@ import static spark.Spark.*;
  */
 public class AuthService {
 	private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+	//private static final String URL = "https://api.linkedin.com/v1/people/~:(id,formatted-name,skills)?format=json";
+	private static final String URL = "https://api.linkedin.com/v1/people/~:(id,formatted-name)?format=json";
 
 	private static final Properties secrets;
 	private static final OAuth20Service LIService;
@@ -32,10 +38,9 @@ public class AuthService {
 		LIService = new ServiceBuilder()
 			.apiKey(secrets.getProperty("li.key")).apiSecret(secrets.getProperty("li.secret"))
 			.scope("r_basicprofile")
-			.callback("http://korobochka.org:4567/api/auth/li_callback")
+			.callback(secrets.getProperty("li.callback", "http://korobochka.org:4567/api/auth/li_callback"))
 			.state("some_params") //todo
 			.build(LinkedInApi20.instance());
-
 	}
 
 	public static void initRoutes() {
@@ -47,9 +52,13 @@ public class AuthService {
 		get("/api/auth/li_callback", (request, response) -> {
 			String code = request.queryParams("code");
 			OAuth2AccessToken accessToken = LIService.getAccessToken(code);
-			log.info("Got access token: " + accessToken.getRawResponse());
-			response.redirect("/");
-			return null;
+			OAuthRequest LIRequest = new OAuthRequest(Verb.GET, URL, LIService);
+			LIService.signRequest(accessToken, LIRequest);
+			final Response LIresponse = LIRequest.send();
+			LIProfile profile = Main.gson.fromJson(LIresponse.getBody(), LIProfile.class);
+			return "Hello, " + profile.formattedName;
+			//response.redirect("/");
+			//return null;
 		});
 	}
 }
