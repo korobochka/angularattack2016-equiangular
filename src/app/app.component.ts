@@ -20,7 +20,6 @@ import { RouterActive } from './router-active';
     encapsulation: ViewEncapsulation.None,
     styles: [
         require('normalize.css'),
-        require('prismjs/themes/prism-okaidia.css'),
         require('../assets/css/styles.css'),
     ],
     template: `
