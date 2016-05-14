@@ -5,9 +5,11 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class API {
-    API_URL = 'http://korobochka.org:4567/api';
+    API_URL = '/api';
     pingURL = this.API_URL + '/ping';
     wrongURL = this.API_URL + '/throw';
+    loginLinkedInURL = this.API_URL + '/auth/li';
+    profileURL = this.API_URL + '/auth/profile';
     http: Http;
 
     constructor(@Inject(Http) http) {
@@ -20,6 +22,13 @@ export class API {
             .catch(this.handleError);
     }
 
+    profile() : any {
+        return this.http
+            .get(this.profileURL)
+            .map(request => request.json())
+            .catch(this.handleError);
+    }
+
     wrong() : any {
         return this.http
             .get(this.wrongURL)
@@ -27,7 +36,9 @@ export class API {
     }
 
     handleError(error) {
-        let err = (error.json().error) || 'Server error';
+        let err = JSON.parse(error['_body']);
+        err.error = true;
+        console.log(err);
         return Observable.throw(err);
     }
 }

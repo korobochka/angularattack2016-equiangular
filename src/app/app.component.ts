@@ -36,6 +36,14 @@ import { RouterActive } from './router-active';
             API
           </button>
 
+          <button md-button router-active [routerLink]=" ['Profile'] ">
+            Profile
+          </button>
+
+          <button md-button router-active [routerLink]=" ['Login'] ">
+            Login
+          </button>
+
           <span class="fill"></span>
 
           <button md-raised-button>
@@ -59,9 +67,11 @@ import { RouterActive } from './router-active';
 //    { path: '/',      name: 'Index', component: Home, useAsDefault: true },
 //    { path: '/home',  name: 'Home',  component: Home },
     // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-    { path: '/', name: 'About', useAsDefault: true, loader: () => require('es6-promise!./PageAbout')('PageAboutComponent') },
-    { path: '/markdown', name: 'Markdown', loader: () => require('es6-promise!./PageMarkdown')('PageMarkdownComponent') },
-    { path: '/api', name: 'API', loader: () => require('es6-promise!./PageAPI')('PageAPIComponent') }
+    { path: '/', name: 'About', useAsDefault: true, loader: () => require('es6-promise!./pages/about/PageAboutComponent')('PageAboutComponent') },
+    { path: '/profile', name: 'Profile', loader: () => require('es6-promise!./pages/profile/PageProfileComponent')('PageProfileComponent') },
+    { path: '/login', name: 'Login', loader: () => require('es6-promise!./pages/login/PageLoginComponent')('PageLoginComponent') },
+    { path: '/markdown', name: 'Markdown', loader: () => require('es6-promise!./pages/markdown/PageMarkdownComponent')('PageMarkdownComponent') },
+    { path: '/api', name: 'API', loader: () => require('es6-promise!./pages/api/PageAPIComponent')('PageAPIComponent') }
 ])
 export class App {
     loading = false;

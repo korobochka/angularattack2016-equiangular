@@ -24,6 +24,8 @@ const METADATA = {
  */
 module.exports = {
 
+    cache: true,
+
     /*
      * Static metadata for index.html
      *

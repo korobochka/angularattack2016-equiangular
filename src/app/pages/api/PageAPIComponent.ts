@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { API } from '../services/api.service';
+import { API } from '../../services/api.service';
 
 @Component({
     selector: 'md',
@@ -19,7 +19,7 @@ import { API } from '../services/api.service';
 
     <md-progress-circle mode="indeterminate" *ngIf="inProgress"></md-progress-circle>
     
-    <pre *ngIf="requestCompleted">{{response}}</pre>
+    <pre *ngIf="requestCompleted">{{response | json}}</pre>
   </md-card>
 
   `
