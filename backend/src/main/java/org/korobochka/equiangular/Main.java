@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		externalStaticFileLocation("../dist");
-		enableCORS("*.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
+		enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
 		exception(CustomException.class, (exception, request, response) -> {
 			response.status(HttpStatus.FORBIDDEN_403);
@@ -89,9 +89,9 @@ public class Main {
 			return "OK";
 		});
 
-		before((request, response) -> {
-			String originH = request.headers("Origin").replaceAll("http://|https://", "");
-			if(originH.startsWith("localhost:")) {
+		before("/api/*", (request, response) -> {
+			if(request.headers("Origin") != null
+					&& request.headers("Origin").replaceAll("http://|https://", "").startsWith("localhost:")) {
 				response.header("Access-Control-Allow-Origin", request.headers("Origin"));
 			} else {
 				response.header("Access-Control-Allow-Origin", origin);

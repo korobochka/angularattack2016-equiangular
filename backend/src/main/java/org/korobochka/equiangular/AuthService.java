@@ -12,13 +12,13 @@ import static spark.Spark.*;
  */
 public class AuthService {
 	private static final Logger log = LoggerFactory.getLogger(AuthService.class);
-	private static final OAuth20Service LIService = new ServiceBuilder()
+	private static final OAuth20Service LIService = null; /*new ServiceBuilder()
 			.apiKey("").apiSecret("")
 			.scope("r_basicprofile")
 			.callback("http://korobochka.org:4567/api/auth/li_callback")
 			.state("some_params") //todo
 			.build(LinkedInApi20.instance());
-
+*/
 
 	public static void initRoutes() {
 		get("/api/auth/li", (request, response) -> {
