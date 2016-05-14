@@ -7,7 +7,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import org.korobochka.equiangular.models.LIProfile;
 import org.korobochka.equiangular.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +97,7 @@ public class AuthService {
 		User user = session.attribute("user");
 		if(user == null) user = new User();
 		session.attribute("user", user);
-		user.setName(formattedName);
+		user.name = formattedName;
 
 		// todo store token and user info in DB
 		// load skills from DB

@@ -1,21 +1,20 @@
 package org.korobochka.equiangular.models;
 
-import java.util.List;
-
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by lgarswood on 5/14/16.
  */
 
 @Entity
-@Table(name="TestUser")
-public class User {
+public class Skill {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int id;
-	public String name;
-	public String linkedInToken;
+	public String title;
 	@ManyToMany
-	public List<Skill> skills;
+	public List<User> users;
+	@ManyToMany
+	public List<Question> questions;
 }
