@@ -48,6 +48,7 @@ public class AuthService {
 
 	public static void initRoutes() {
 		get("/api/auth/li", (request, response) -> {
+			request.session().attribute("return", request.queryParams("return"));
 			response.redirect(LIService.getAuthorizationUrl());
 			return null;
 		});
@@ -62,11 +63,12 @@ public class AuthService {
 			final Response LIresponse = LIRequest.send();
 			LIProfile profile = Main.gson.fromJson(LIresponse.getBody(), LIProfile.class);
 
-			authorizeUser(request.session(true), accessToken.getAccessToken(), profile.formattedName);
+			Session session = request.session(true);
+			authorizeUser(session, accessToken.getAccessToken(), profile.formattedName);
 
-			return "Hello, " + profile.formattedName;
-			//response.redirect("/");
-			//return null;
+			if(session.attribute("return") != null) response.redirect(session.attribute("return"));
+			else response.redirect("/");
+			return null;
 		});
 
 		post("/api/auth/logout", (request, response) -> {
