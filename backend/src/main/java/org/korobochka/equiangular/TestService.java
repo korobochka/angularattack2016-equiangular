@@ -21,7 +21,7 @@ class TestService {
 		get("/api/test/submit_answer", (req, res) -> {
 			log.info("Saving answer: " + req.body());
 			saveAnswer(Main.gson.fromJson(req.body(), Question.class)); // TODO make answer class
-			return (Main.gson.toJson("Question saved successfully"));
+			return Main.gson.toJson("Question saved successfully");
 		});
 	}
 

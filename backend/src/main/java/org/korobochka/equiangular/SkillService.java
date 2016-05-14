@@ -24,13 +24,13 @@ class SkillService {
 			String skill = req.body();
 			log.info("Adding new intended skill: " + skill);
 			addUserIntendedSkills(null, skill);
-			return "Saved intended skill: " + skill;
+			return Main.gson.toJson("Saved intended skill: " + skill);
 		});
 		delete("/api/skills", (req, res) -> {
 			String skill = req.body();
 			log.info("Removing new intended skill: " + skill);
 			removeUserIntendedSkills(null, skill);
-			return "removed intended skill: " + skill;
+			return Main.gson.toJson("Removed intended skill: " + skill);
 		});
 	}
 
