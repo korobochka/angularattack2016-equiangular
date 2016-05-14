@@ -12,6 +12,7 @@ public class User {
 	private LinkedHashMap<String, String> tags;
 	private List<String> intendedSkills;
 	private int id;
+	private String name = "";
 
 	public User() {
 		calculatedSkills = new ArrayList<String>();
@@ -30,6 +31,14 @@ public class User {
 	public void setTags(LinkedHashMap<String, String> tags) { this.tags = tags; }
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public void addIntendedSkill(String skill) {
 		this.intendedSkills.add(skill);

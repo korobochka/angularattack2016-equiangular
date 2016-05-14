@@ -8,8 +8,11 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import org.korobochka.equiangular.models.LIProfile;
+import org.korobochka.equiangular.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.Request;
+import spark.Session;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -50,15 +53,52 @@ public class AuthService {
 		});
 
 		get("/api/auth/li_callback", (request, response) -> {
+			if(request.queryParams("error") != null) throw new CustomException("Auth failed!");
 			String code = request.queryParams("code");
 			OAuth2AccessToken accessToken = LIService.getAccessToken(code);
+
 			OAuthRequest LIRequest = new OAuthRequest(Verb.GET, URL, LIService);
 			LIService.signRequest(accessToken, LIRequest);
 			final Response LIresponse = LIRequest.send();
 			LIProfile profile = Main.gson.fromJson(LIresponse.getBody(), LIProfile.class);
+
+			authorizeUser(request.session(true), accessToken.getAccessToken(), profile.formattedName);
+
 			return "Hello, " + profile.formattedName;
 			//response.redirect("/");
 			//return null;
 		});
+
+		post("/api/auth/logout", (request, response) -> {
+			Session session = checkUserAuthorization(request);
+			session.removeAttribute("user");
+			return "OK";
+		});
+
+		get("/api/auth/profile", (request, response) -> {
+			checkUserAuthorization(request);
+			return getCurrentUser(request);
+		}, Main.gson::toJson);
+	}
+
+	public static Session checkUserAuthorization(Request request) throws CustomException {
+		Session session = request.session();
+		if(session == null || session.attribute("user") == null) throw new CustomException("Auth required");
+		return session;
+	}
+
+	public static User getCurrentUser(Request request) throws CustomException {
+		Session session = checkUserAuthorization(request);
+		return session.attribute("user");
+	}
+
+	private static void authorizeUser(Session session, String LIToken, String formattedName) {
+		User user = session.attribute("user");
+		if(user == null) user = new User();
+		session.attribute("user", user);
+		user.setName(formattedName);
+
+		// todo store token and user info in DB
+		// load skills from DB
 	}
 }
