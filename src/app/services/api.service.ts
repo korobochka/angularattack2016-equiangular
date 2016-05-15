@@ -61,15 +61,13 @@ export class API {
 
     deleteSkill(tag) : any {
         // Workaround implementation
-        // TODO: Add support for tag ID as part of request URL as HTTP's DELETE method doesn't support body
 
         let requestOptions = new RequestOptions({
             method: RequestMethod.Delete,
-            body: tag
         });
 
         return this.http
-            .request(this.skillsURL, requestOptions)
+            .request(this.skillsURL + "/" + tag.id, requestOptions)
             .catch(this.handleError);
     }
 

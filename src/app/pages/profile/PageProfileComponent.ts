@@ -47,12 +47,12 @@ import { API } from '../../services/api.service';
                     </span>
         
                     <span class="mdl-list__item-secondary-action">
-                        <div class="mdl-progress mdl-js-progress"></div>
+                        <div *ngIf="pendingRemovalSkills.concat(pendingAddSkills).indexOf(tag) != -1" class="mdl-progress mdl-js-progress"></div>
                     </span>
                 </li>
             </ul>
         </div>
-        
+
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
@@ -82,6 +82,8 @@ export class PageProfileComponent {
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
+    pendingAddSkills: string[] = [];
+    pendingRemovalSkills: string[] = [];
 
     constructor(private api: API) {
         this.api.profile().subscribe((res) => {
@@ -97,24 +99,32 @@ export class PageProfileComponent {
     reloadSkills() {
         this.api.getSkills().subscribe((res) => {
             this.profile.intendedSkills = res;
+            this.pendingAddSkills = this.pendingAddSkills.filter(skill =>
+                this.profile.intendedSkills.indexOf(skill) != -1
+            );
+            componentHandler.upgradeDom();
         }, (err) => {
         });
     }
 
     handleAddSkill() {
         if (this.add_skill_name) {
+            this.pendingAddSkills.push(this.add_skill_name);
             this.api.createSkill(this.add_skill_name).subscribe((res) => {
+                this.pendingAddSkills = this.pendingAddSkills.filter(skill => skill != this.add_skill_name);
                 this.reloadSkills();
                 this.add_skill_name = '';
+                componentHandler.upgradeDom();
             }, (err) => {
             });
         }
     }
 
     handleRemoveSkill(tag) {
+        this.pendingRemovalSkills.push(tag);
         this.api.deleteSkill(tag).subscribe((res) => {
-            let index = this.profile.intendedSkills.indexOf(tag);
-            this.profile.intendedSkills.splice(index, 1);
+            this.pendingRemovalSkills = this.pendingRemovalSkills.filter(skill => skill != tag);
+            this.profile.intendedSkills = this.profile.intendedSkills.filter(skill => skill != tag);
         }, (err) => {
         });
     }
