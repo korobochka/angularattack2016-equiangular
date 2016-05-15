@@ -30,23 +30,19 @@ public class QuestionStore {
 		return question;
 	}
 
-	public static Question attachAnswer(Question question, Answer answer) {
-		if(question.answers == null) question.answers = new HashSet<>();
-		answer.question = question;
-		question.answers.add(answer);
-		return question;
-	}
-
 	public static Question attachSkill(Question question, Skill skill) {
 		if(question.skills == null) question.skills = new HashSet<>();
 		question.skills.add(skill);
 		return question;
 	}
 
-	public static Answer createAnswer(EntityManager entityManager, String body, boolean correct) {
+	public static Answer createAnswerAndAttach(EntityManager entityManager, String body, boolean correct, Question question) {
 		Answer answer = new Answer();
 		answer.body = body;
 		answer.isCorrect = correct;
+		if(question.answers == null) question.answers = new HashSet<>();
+		answer.question = question;
+		question.answers.add(answer);
 		entityManager.persist(answer);
 		return answer;
 	}

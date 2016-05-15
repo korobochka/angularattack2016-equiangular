@@ -32,8 +32,8 @@ public class QuestionService {
 					"Random title " + System.currentTimeMillis(),
 					"Random body " + System.currentTimeMillis());
 			for(int i = 0; i < 4; i++) {
-				Answer answer = QuestionStore.createAnswer(entityManager, "Answer body " + i + " " + System.currentTimeMillis(), (i == 0));
-				QuestionStore.attachAnswer(question, answer);
+				QuestionStore.createAnswerAndAttach(
+						entityManager, "Answer body " + i + " " + System.currentTimeMillis(), (i == 0), question);
 			}
 			QuestionStore.attachSkill(question, SkillStore.getRandomSkill(entityManager));
 			return question;
@@ -58,7 +58,7 @@ public class QuestionService {
 			question.skills = skills;
 			Set<Answer> answers = question.answers;
 			question.answers = new HashSet<>();
-			answers.forEach(a -> { QuestionStore.attachAnswer(question, QuestionStore.createAnswer(entityManager, a.body, a.isCorrect)); });
+			answers.forEach(a -> { QuestionStore.createAnswerAndAttach(entityManager, a.body, a.isCorrect, question); });
 			entityManager.persist(question);
 			return question;
 		}, Main.gson::toJson);
@@ -81,7 +81,7 @@ public class QuestionService {
 			Set<Answer> answers = questionNew.answers;
 			question.answers.forEach(entityManager::remove);
 			question.answers = new HashSet<>();
-			answers.forEach(a -> { QuestionStore.attachAnswer(question, QuestionStore.createAnswer(entityManager, a.body, a.isCorrect)); });
+			answers.forEach(a -> { QuestionStore.createAnswerAndAttach(entityManager, a.body, a.isCorrect, question); });
 
 			return question;
 		}, Main.gson::toJson);

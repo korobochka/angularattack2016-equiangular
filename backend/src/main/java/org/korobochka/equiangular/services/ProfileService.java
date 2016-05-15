@@ -73,6 +73,14 @@ public class ProfileService {
 			Stats stats = new Stats();
 			stats.answersSubmitted = responseList.size();
 
+			for(UserResponse userResponse: responseList) {
+				for(Skill skill: userResponse.question.skills) {
+					Stats.SkillResult sr = stats.getBySkill(skill);
+					sr.totalAnswers++;
+					if(userResponse.answer.isCorrect) sr.correctAnswers++;
+				}
+			}
+
 			return stats;
 		}, Main.gson::toJson);
 	}

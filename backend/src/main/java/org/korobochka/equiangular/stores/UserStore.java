@@ -5,6 +5,7 @@ import org.korobochka.equiangular.models.User;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * Created by korobochka on 5/15/16.
@@ -17,7 +18,7 @@ public class UserStore {
 		if(user == null) {
 			user = new User();
 			user.linkedInId = LIId;
-			user.skills = Collections.emptySet();
+			user.skills = new HashSet<>();
 			user.skills.add(SkillStore.getRandomSkill(entityManager));
 			entityManager.persist(user);
 		}

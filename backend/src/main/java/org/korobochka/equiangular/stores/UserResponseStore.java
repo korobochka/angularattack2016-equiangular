@@ -13,23 +13,24 @@ import java.util.List;
  * Created by korobochka on 5/15/16.
  */
 public class UserResponseStore {
-	public static UserResponse getOrCreateResponse(EntityManager entityManager, User user, Question question) {
+	public static UserResponse getOrCreateResponse(EntityManager entityManager, User user, Answer answer) {
 		UserResponse response = PersistenceUtil.getSingleResult(entityManager
 				.createQuery("select r from UserResponse as r where r.user = :user and r.question = :question", UserResponse.class)
 				.setParameter("user", user)
-				.setParameter("question", question));
+				.setParameter("question", answer.question));
 		if(response == null) {
 			response = new UserResponse();
 			response.user = user;
-			response.question = question;
+			response.question = answer.question;
+			response.answer = answer;
 			entityManager.persist(response);
 		}
+		response.answer = answer;
 		return response;
 	}
 
 	public static UserResponse recordUserAnswerToQuestion(EntityManager entityManager, User user, Answer answer) {
-		UserResponse response = getOrCreateResponse(entityManager, user, answer.question);
-		response.answer = answer;
+		UserResponse response = getOrCreateResponse(entityManager, user, answer);
 		return response;
 	}
 
