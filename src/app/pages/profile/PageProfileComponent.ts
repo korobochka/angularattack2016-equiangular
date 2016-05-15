@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+import { Router } from '@angular/router-deprecated';
 import { AppState } from '../..//app.service';
 declare var componentHandler: any;
 
@@ -87,7 +88,7 @@ export class PageProfileComponent {
     pendingAddSkills: string[] = [];
     pendingRemovalSkills: string[] = [];
 
-    constructor(private api: API, private appState: AppState) {
+    constructor(private api: API, private router: Router, private appState: AppState) {
         this.api.profile().subscribe((res) => {
             this.profile = res;
             console.log('profile', this.profile);
@@ -98,7 +99,12 @@ export class PageProfileComponent {
     }
 
     ngOnInit() {
-        this.reloadSkills();
+        if (!this.appState['loggedin']) {
+            this.router.navigateByUrl("/");
+        }
+        else {
+            this.reloadSkills();
+        }
     }
 
     inPendingStatus(skill: string) {

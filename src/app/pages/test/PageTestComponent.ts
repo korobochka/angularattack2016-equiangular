@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+import { Router } from '@angular/router-deprecated';
+import { AppState } from '../../app.service';
 import { QuestionComponent } from '../../components/question/question.component';
 import { QuestionTitleComponent } from '../../components/question/question.title.component';
 import { QuestionAnswersComponent } from '../../components/question/question.answers.component';
@@ -64,7 +66,7 @@ export class PageTestComponent {
     private timeExpired: boolean = false;
     private timerId: any = 0;
 
-    constructor(private api: API) {
+    constructor(private api: API, private router: Router, private appState: AppState) {
     }
 
     ngOnInit() {

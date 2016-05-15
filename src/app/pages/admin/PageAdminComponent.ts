@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
 import { QuestionListComponent } from '../../components/question/question.list.component';
+import { Router } from '@angular/router-deprecated';
+import { AppState } from '../../app.service';
 
 declare var dialogPolyfill: any;
 
@@ -21,9 +23,13 @@ declare var dialogPolyfill: any;
   `
 })
 export class PageAdminComponent {
-    constructor(private api: API) {
+    constructor(private api: API, private router: Router, private appState: AppState) {
     }
 
     ngOnInit() {
+        console.log(this.appState);
+        if (!this.appState['loggedin']) {
+            this.router.navigateByUrl("/");
+        }
     }
 }

@@ -24,7 +24,10 @@ declare var dialogPolyfill: any;
       <th class="mdl-data-table__cell--non-numeric" style="width: 75%;">Title</th>
       <th>Complexity</th>
       <th>No. of<br />answers</th>
-      <th class="mdl-data-table__cell--non-numeric" style="width: 25%;">Skills</th>
+      <th class="mdl-data-table__cell--non-numeric" style="width: 25%;">
+        Skills<br />
+        <input type="text" class="input-no-decoration" [(ngModel)]="filterBySkill" />
+      </th>
       <th class="mdl-data-table__cell--non-numeric"></th>
     </tr>
   </thead>
@@ -68,6 +71,7 @@ declare var dialogPolyfill: any;
 export class QuestionListComponent {
     questions: Array<any> = [];
     questionsLoaded: boolean = false;
+    filterBySkill: string = '';
 
     @ViewChild(QuestionEditDialogComponent)
     editDialog: QuestionEditDialogComponent;
