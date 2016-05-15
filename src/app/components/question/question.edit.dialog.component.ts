@@ -23,6 +23,7 @@ import { Component } from '@angular/core';
                     <thead>
                         <tr>
                             <th class="mdl-data-table__cell--non-numeric" style="width:100%">Answers</th>
+                            <th class="mdl-data-table__cell--non-numeric">Correct?</th>
                             <th class="mdl-data-table__cell--non-numeric">
                                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-button--colored mdl-js-ripple-effect" 
                                         (click)="handleAddAnswer()">
@@ -43,6 +44,11 @@ import { Component } from '@angular/core';
                                     <input type="text" class="input-no-decoration" [(ngModel)]="answer.body" />
                                 </div>
                             </td>
+
+                            <td class="mdl-data-table__cell--non-numeric" style="width:0%">
+                                <input type="checkbox" class="mdl-switch__input" [(ngModel)]="answer.isCorrect">
+                            </td>
+
                             <td class="mdl-data-table__cell--non-numeric" style="width:0%">
                                 <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleDeleteAnswer(answer)" *ngIf="!answer.new">
                                     <i class="material-icons">clear</i>
