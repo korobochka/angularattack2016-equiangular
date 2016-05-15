@@ -31,6 +31,7 @@ class SkillService {
 			Skill skill = SkillStore.getSkillByTitle(entityManager, req.body());
 			log.info("Adding new intended skill: " + skill.title);
 			addUserIntendedSkills(user, skill);
+			entityManager.merge(user);
 			return skill;
 		}, Main.gson::toJson);
 		delete("/api/skills/:id", (req, res) -> {
@@ -39,6 +40,7 @@ class SkillService {
 			Skill skill = SkillStore.getSkillById(entityManager, Long.parseLong(req.params("id")));
 			log.info("Removing new intended skill: " + skill.title);
 			removeUserIntendedSkills(user, skill);
+			entityManager.merge(user);
 			return "Removed intended skill: " + skill.title;
 		}, Main.gson::toJson);
 	}
