@@ -18,6 +18,7 @@ public class UserStore {
 			user = new User();
 			user.linkedInId = LIId;
 			user.skills = Collections.emptySet();
+			user.skills.add(SkillStore.getRandomSkill(entityManager));
 			entityManager.persist(user);
 		}
 		return user;

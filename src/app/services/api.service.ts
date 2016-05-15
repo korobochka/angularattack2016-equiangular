@@ -109,7 +109,7 @@ export class API {
 
     submitAnswer(answers) : any {
         return this.http
-            .post(this.submitAnswerURL, answers)
+            .post(this.submitAnswerURL, JSON.stringify(answers))
             .map(request => request.json())
             .catch(this.handleError);
     }

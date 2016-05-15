@@ -1,15 +1,19 @@
 package org.korobochka.equiangular.services;
 
 import org.korobochka.equiangular.Main;
+import org.korobochka.equiangular.apidmodels.Stats;
 import org.korobochka.equiangular.models.Skill;
 import org.korobochka.equiangular.models.User;
+import org.korobochka.equiangular.models.UserResponse;
 import org.korobochka.equiangular.stores.SkillStore;
+import org.korobochka.equiangular.stores.UserResponseStore;
 import org.korobochka.equiangular.stores.UserStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Spark;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static org.korobochka.equiangular.services.AuthService.getCurrentUser;
 import static spark.Spark.*;
@@ -57,6 +61,19 @@ public class ProfileService {
 			log.info("Removing new intended skill: " + skill.title);
 			user.skills.remove(skill);
 			return "Removed intended skill: " + skill.title;
+		}, Main.gson::toJson);
+
+		get("/api/profile/:userId/stats", (request, response) -> {
+			EntityManager entityManager = request.attribute("EM");
+			long userId = Long.parseLong(request.params("userId"));
+			if(userId != 0) throw new Exception("Cant modify other users skills");
+			User user = getCurrentUser(request);
+			List<UserResponse> responseList = UserResponseStore.getAllUserResponses(entityManager, user);
+
+			Stats stats = new Stats();
+			stats.answersSubmitted = responseList.size();
+
+			return stats;
 		}, Main.gson::toJson);
 	}
 }
