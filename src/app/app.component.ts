@@ -1,6 +1,3 @@
-/*
- * Angular 2 decorators and services
- */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { RouteConfig, Router } from '@angular/router-deprecated';
 
@@ -9,7 +6,6 @@ import { RouterActive } from './router-active';
 
 /*
  * App Component
- * Top Level Component
  */
 @Component({
     selector: 'app',
@@ -70,7 +66,6 @@ import { RouterActive } from './router-active';
 @RouteConfig([
 //    { path: '/',      name: 'Index', component: Home, useAsDefault: true },
 //    { path: '/home',  name: 'Home',  component: Home },
-    // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
     { path: '/', name: 'About', useAsDefault: true, loader: () => require('es6-promise!./pages/about/PageAboutComponent')('PageAboutComponent') },
     { path: '/test', name: 'Test', loader: () => require('es6-promise!./pages/test/PageTestComponent')('PageTestComponent') },
     { path: '/profile', name: 'Profile', loader: () => require('es6-promise!./pages/profile/PageProfileComponent')('PageProfileComponent') },
@@ -81,13 +76,9 @@ import { RouterActive } from './router-active';
 export class App {
     loading = false;
 
-    constructor(
-        public appState: AppState) {
-
+    constructor(public appState: AppState) {
     }
 
     ngOnInit() {
-        console.log('Initial App State', this.appState.state);
     }
-
 }
