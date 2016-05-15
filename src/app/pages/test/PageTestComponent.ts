@@ -70,7 +70,10 @@ export class PageTestComponent {
     }
 
     ngOnInit() {
-        if (!this.questionLoaded) {
+        if (!this.appState['loggedin']) {
+            this.router.navigateByUrl("/");
+        }
+        else if (!this.questionLoaded) {
             this.loadQuestion();
         }
     }
