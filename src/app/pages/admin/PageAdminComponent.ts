@@ -7,9 +7,8 @@ import { Component } from '@angular/core';
     Few words about functions, how to install and so forth
   `
 })
-export class PageAboutComponent {
+export class PageAdminComponent {
     constructor() {
-
     }
 
     ngOnInit() {

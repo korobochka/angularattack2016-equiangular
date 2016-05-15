@@ -29,6 +29,10 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
             Test
           </button>
 
+          <button md-button router-active [routerLink]=" ['Admin'] ">
+            Admin
+          </button>
+
           <button md-button router-active [routerLink]=" ['Profile'] ">
             Profile
           </button>
@@ -67,12 +71,11 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
   `
 })
 @RouteConfig([
-//    { path: '/',      name: 'Index', component: Home, useAsDefault: true },
-//    { path: '/home',  name: 'Home',  component: Home },
     {
         path: '/',
         name: 'About',
         useAsDefault: true,
+        //component: Home
         loader: () => require('es6-promise!./pages/about/PageAboutComponent')('PageAboutComponent')
     },
     {
@@ -94,6 +97,11 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
         path: '/logout',
         name: 'Logout',
         loader: () => require('es6-promise!./pages/logout/PageLogoutComponent')('PageLogoutComponent')
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        loader: () => require('es6-promise!./pages/admin/PageAdminComponent')('PageAdminComponent')
     },
     {
         path: '/markdown',
