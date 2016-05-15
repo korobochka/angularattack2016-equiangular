@@ -43,3 +43,12 @@ footer{
     background: #fff;
     border-top: 1px solid #ccc;
 }
+
+
+.question-answers-container {
+    padding: 20px;
+}
+.question-answers-container .question-answer-option {
+    margin-bottom: 5px;
+    clear: both;
+}

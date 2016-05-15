@@ -24,34 +24,43 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         </div>
 
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            <question-answers [answers]="questionAnswers">
+            <question-answers [answers]="questionAnswers"
+                              multiply="true"
+                              (onChange)="handleAnswersChange($event)">
             </question-answers>
         </div>
 
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="handleAddSkill()" style="float: right">
-            <i class="material-icons">add</i> Submit Answer
-        </button>
+        <div class="mdl-cell mdl-cell--12-col">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="handleAddSkill()" style="float: right" [disabled]="!submitAnswerEnabled">
+                <i class="material-icons">done</i> Submit Answer
+            </button>
+        </div>
     </div>
   `
 })
 export class PageTestComponent {
     inProgress: boolean = false;
     requestCompleted: boolean = false;
+    submitAnswerEnabled = false;
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
     questionTitle = 'Some Title';
     questionAnswers = [
         {
+            id: 1,
             body: 'Option 1'
         },
         {
+            id: 2,
             body: 'Option 2'
         },
         {
+            id: 3,
             body: 'Option 3'
         },
         {
+            id: 4,
             body: 'Option 4'
         }
     ];
@@ -96,5 +105,9 @@ export class PageTestComponent {
             this.profile.intendedSkills.splice(index, 1);
         }, (err) => {
         });
+    }
+
+    handleAnswersChange(answers) {
+        this.submitAnswerEnabled = (answers.length > 0);
     }
 }
