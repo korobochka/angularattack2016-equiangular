@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HTTP_PROVIDERS, Http, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { AppState } from '../app.service';
 
 @Injectable()
 export class API {
@@ -9,17 +10,26 @@ export class API {
     pingURL = this.API_URL + '/ping';
     wrongURL = this.API_URL + '/throw';
     skillsURL = this.API_URL + '/skills';
+    logoutURL = this.API_URL + '/auth/logout';
     loginLinkedInURL = this.API_URL + '/auth/li';
     profileURL = this.API_URL + '/auth/profile';
     http: Http;
+    appState: AppState;
 
-    constructor(@Inject(Http) http) {
+    constructor(@Inject(AppState) appState, @Inject(Http) http) {
+        this.appState = appState;
         this.http = http;
     }
 
     ping() : any {
         return this.http
             .get(this.pingURL)
+            .catch(this.handleError);
+    }
+
+    logout() : any {
+        return this.http
+            .get(this.logoutURL)
             .catch(this.handleError);
     }
 
@@ -72,8 +82,12 @@ export class API {
     handleError(error) {
         let err = JSON.parse(error['_body']);
         err.error = true;
-        // TODO: Add nice error handling and display
-        console.log(err);
+
+        let appState = window['appState'];
+        if (appState) {
+            appState.addErrorNotification(error.status, err);
+        }
+
         return Observable.throw(err);
     }
 }
