@@ -97,6 +97,7 @@ public class Main {
 					Thread.sleep(1000);
 				} catch (InterruptedException ignore) {}
 				stop();
+				entityManagerFactory.close();
 			}).start();
 			return "OK";
 		});
