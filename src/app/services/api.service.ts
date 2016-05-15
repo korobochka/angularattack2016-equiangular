@@ -25,6 +25,13 @@ export class API {
         }
 
         this.appState = appState;
+        // TODO: Use official Angular2 CORS support when merged (https://github.com/angular/angular/issues/4231).
+        let _build = (<any> http)._backend._browserXHR.build;
+        (<any> http)._backend._browserXHR.build = () => {
+            let _xhr =  _build();
+            _xhr.withCredentials = true;
+            return _xhr;
+        };
         this.http = http;
 
         this.setupEndpoints();
