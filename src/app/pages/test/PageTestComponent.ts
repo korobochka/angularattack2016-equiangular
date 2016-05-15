@@ -33,8 +33,13 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         </div>
 
         <div class="mdl-cell mdl-cell--12-col text-right">
-        {{questionTimeLeft}}
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="handleAddSkill()" [disabled]="!submitAnswerEnabled">
+            <span class="mdl-typography--headline">
+                {{questionTimeLeft}}
+            </span>
+
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" 
+                    (click)="handleAddSkill()"
+                    [disabled]="!submitAnswerEnabled">
                 <i class="material-icons">done</i> Submit Answer
             </button>
         </div>
@@ -48,10 +53,10 @@ export class PageTestComponent {
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
-    timeout: Number = 90;
-    timeLeft: Number = 0;
+    timeout: any = 90;
+    timeLeft: any = 0;
     private timeExpired: boolean = false;
-    private timerId: Number = 0;
+    private timerId: any = 0;
     questionTimeStart: Date;
     questionTimeLeft: string = '';
     questionTitle = 'Some Title';

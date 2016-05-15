@@ -28,6 +28,7 @@ import { QuestionAnswerComponent } from './questions.answer.component';
 export class QuestionAnswersComponent {
     elementType: string = 'radio';
     elementInputClass: string = 'mdl-radio__button';
+
     multiply: string = '';
     answers: Array<any> = [];
     onChange: EventEmitter<any> = new EventEmitter();
@@ -36,6 +37,7 @@ export class QuestionAnswersComponent {
     }
 
     ngOnInit() {
+        this.multiply = JSON.parse(this.multiply);
         if (this.multiply) {
             this.elementType = 'checkbox';
             this.elementInputClass = 'mdl-checkbox__input';
