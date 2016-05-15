@@ -12,6 +12,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         QuestionAnswersComponent
     ],
     template: `
+<div *ngIf="!noQuestion">
     <div class="mdl-cell mdl-cell--12-col">
         <question-title>
             {{question.title}}
@@ -43,11 +44,18 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
             </button>
         </div>
     </div>
+</div>
+
+<div *ngIf="noQuestion">
+    <div class="mdl-cell mdl-cell--12-col">
+        There are no question available
+    </div>
+</div>
+
   `
 })
 export class PageTestComponent {
-    inProgress: boolean = false;
-    requestCompleted: boolean = false;
+    noQuestion: boolean = true;
     submitAnswerEnabled = false;
     response: string = '';
     profile: any = {}
@@ -64,7 +72,6 @@ export class PageTestComponent {
     }
 
     ngOnInit() {
-        console.log(this);
         if (!this.questionLoaded) {
             this.loadQuestion();
         }
@@ -73,8 +80,10 @@ export class PageTestComponent {
     loadQuestion() {
         this.api.nextQuestion().subscribe((res) => {
             this.question = res;
-            //this.question.timeLimit = 75;
+
             this.questionLoaded = true;
+            this.noQuestion = (res == null);
+            this.submitAnswerEnabled = false;
 
             this.prepareTimers();
         }, (err) => {
@@ -84,9 +93,10 @@ export class PageTestComponent {
     prepareTimers() {
         if (this.timerId) clearInterval(this.timerId);
 
-        if (Number(this.question.timeLimit) > 0) {
-            this.questionTimeStart = new Date();
+        if (this.question &&
+            Number(this.question.timeLimit) > 0) {
 
+            this.questionTimeStart = new Date();
             this.timeExpired = false;
 
             this.timerId = setInterval(() => {
