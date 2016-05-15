@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { API } from '../../services/api.service';
 import { QuestionListComponent } from '../../components/question/question.list.component';
 
 @Component({
@@ -18,8 +19,7 @@ import { QuestionListComponent } from '../../components/question/question.list.c
   `
 })
 export class PageAdminComponent {
-    constructor() {
-        console.log('PageAdminComponent');
+    constructor(private api: API) {
     }
 
     ngOnInit() {

@@ -13,6 +13,7 @@ export class API {
     logoutURL : string;
     loginLinkedInURL : string;
     profileURL : string;
+    questionsUrl: string;
     nextQuestionURL : string;
     submitAnswerURL : string;
 
@@ -46,6 +47,7 @@ export class API {
         this.profileURL = this.API_URL + '/profile/0';
         this.nextQuestionURL = this.API_URL + '/test/next_question';
         this.submitAnswerURL = this.API_URL + '/test/submit_answer';
+        this.questionsUrl = this.API_URL + '/questions';
     }
 
     ping() : any {
@@ -70,6 +72,13 @@ export class API {
     wrong() : any {
         return this.http
             .get(this.wrongURL)
+            .catch(this.handleError);
+    }
+
+    getQuestions() : any {
+        return this.http
+            .get(this.questionsUrl)
+            .map(request => request.json())
             .catch(this.handleError);
     }
 
