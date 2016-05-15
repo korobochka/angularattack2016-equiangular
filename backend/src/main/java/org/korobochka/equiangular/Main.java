@@ -76,14 +76,6 @@ public class Main {
 			return "pong";
 		});
 
-		get("/api/createUser", (req, res) -> {
-			EntityManager entityManager = req.attribute("EM");
-			User user = new User();
-			entityManager.persist(user);
-			user.name = "Persisted!";
-			return "User created";
-		});
-
 		get("/api/throw", ((request, response) -> {
 			throw new CustomException("test reason");
 		}));
@@ -97,6 +89,7 @@ public class Main {
 					Thread.sleep(1000);
 				} catch (InterruptedException ignore) {}
 				stop();
+				entityManagerFactory.close();
 			}).start();
 			return "OK";
 		});
