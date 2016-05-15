@@ -33,6 +33,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         </div>
 
         <div class="mdl-cell mdl-cell--12-col text-right">
+        {{questionTimeLeft}}
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="handleAddSkill()" [disabled]="!submitAnswerEnabled">
                 <i class="material-icons">done</i> Submit Answer
             </button>
@@ -47,6 +48,12 @@ export class PageTestComponent {
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
+    timeout: Number = 90;
+    timeLeft: Number = 0;
+    private timeExpired: boolean = false;
+    private timerId: Number = 0;
+    questionTimeStart: Date;
+    questionTimeLeft: string = '';
     questionTitle = 'Some Title';
     questionAnswers = [
         {
@@ -82,6 +89,31 @@ export class PageTestComponent {
     }
 
     ngOnInit() {
+        if (Number(this.timeout) > 0) {
+            this.questionTimeStart = new Date();
+
+            if (this.timerId) clearInterval(this.timerId);
+            this.timeExpired = false;
+
+            this.timerId = setInterval(() => {
+                if (Number(this.timeout) > 0) {
+                    let currentDate = new Date();
+                    this.timeLeft = this.timeout - Math.floor((currentDate.getTime() - this.questionTimeStart.getTime()) / 1000);
+
+                    if (this.timeLeft > 0) {
+                        let seconds = this.timeLeft % 60;
+                        let minutes = Math.floor((this.timeLeft / 60)) % 60;
+
+                        this.questionTimeLeft = minutes.toString() + ':' + (("0" + seconds).slice (-2)).toString();
+                        this.timeExpired = false;
+                    }
+                    else {
+                        this.questionTimeLeft = '';
+                        this.timeExpired = true;
+                    }
+                }
+            }, 500);
+        }
     }
 
     handleAnswersChange(answers) {
