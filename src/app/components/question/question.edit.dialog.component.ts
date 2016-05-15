@@ -101,16 +101,19 @@ export class QuestionEditDialogComponent {
 
     handleAddAnswer() {
         let answers = this.question.answers.slice();
+        let minID = 0;
 
         // if any questions are new - add them to list
         answers = answers.map( (el) => {
+            if (el.id < minID) minID = el.id;
             el.new = false;
             return el;
         });
 
         answers.push({
+            id: minID - 1,
             body: 'new',
-            correct: false,
+            isCorrect: false,
             new: true
         });
         this.question.answers = answers;
@@ -145,9 +148,9 @@ export class QuestionEditDialogComponent {
         let index = 0;
         this.question.answers = this.question.answers.map( (el) => {
             return {
-                id: ++index,
+                id: el.id,
                 body: el.body,
-                isCorrect: el.correct
+                isCorrect: el.isCorrect
             };
         });
 
