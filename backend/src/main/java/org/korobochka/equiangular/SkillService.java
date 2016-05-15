@@ -28,7 +28,7 @@ class SkillService {
 		post("/api/skills", (req, res) -> {
 			User user = AuthService.getCurrentUser(req);
 			EntityManager entityManager = req.attribute("EM");
-			Skill skill = SkillStore.getSkillByTitle(entityManager, Main.gson.fromJson(req.body(), String.class));
+			Skill skill = SkillStore.getSkillByTitle(entityManager, req.body());
 			log.info("Adding new intended skill: " + skill.title);
 			addUserIntendedSkills(user, skill);
 			return skill;
