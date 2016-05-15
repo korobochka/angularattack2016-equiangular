@@ -9,7 +9,7 @@ declare var componentHandler: any;
         QuestionTagLineComponent
     ],
     template: `
-<table class="mdl-data-table mdl-js-data-table" 
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" 
        style="width: 100%">
 
   <thead *ngIf="questionsLoaded">

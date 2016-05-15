@@ -105,3 +105,8 @@ footer{
 .mdl-button--tiny-fab i.material-icons {
     font-size: 14px !important;
 }
+
+
+.static-page-content {
+    padding: 10px 20px;
+}

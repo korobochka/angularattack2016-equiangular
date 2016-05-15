@@ -25,33 +25,25 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
             About
           </button>
 
-          <button md-button router-active [routerLink]=" ['Test'] ">
+          <button *ngIf="appState.loggedin" md-button router-active [routerLink]=" ['Test'] ">
             Test
           </button>
 
-          <button md-button router-active [routerLink]=" ['Admin'] ">
+          <button *ngIf="appState.loggedin" md-button router-active [routerLink]=" ['Admin'] ">
             Admin
           </button>
 
-          <button md-button router-active [routerLink]=" ['Profile'] ">
+          <button *ngIf="appState.loggedin" md-button router-active [routerLink]=" ['Profile'] ">
             Profile
           </button>
 
-          <button md-button router-active [routerLink]=" ['Markdown'] ">
-            Markdown
-          </button>
-
-          <button md-button router-active [routerLink]=" ['API'] ">
-            API
-          </button>
-
-          <button *ngIf="!appState.loggedIn" md-button router-active [routerLink]=" ['Login'] ">
+          <button *ngIf="!appState.loggedin" md-button router-active [routerLink]=" ['Login'] ">
             Login
           </button>
 
           <span class="fill"></span>
 
-          <button *ngIf="appState.loggedIn" md-button router-active [routerLink]=" ['Logout'] ">
+          <button *ngIf="appState.loggedin" md-button router-active [routerLink]=" ['Logout'] ">
             Logout
           </button>
       </md-toolbar>
@@ -66,7 +58,8 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
         &copy; Made by Equiangular Team for&nbsp;<a href="https://www.angularattack.com/" target="_blank">Angular Attack</a>&nbsp;hackathon. May 14-15, 2016
       </footer>
       
-      <error-nofications [errors]="appState.get('errors')"></error-nofications>
+      <error-nofications [errors]="appState.get('errors')">
+      </error-nofications>
   </md-content>
   `
 })
@@ -118,6 +111,7 @@ export class App {
     loading = false;
 
     constructor(public appState: AppState) {
+        appState['loggedin'] = false;
     }
 
     ngOnInit() {

@@ -5,13 +5,13 @@ import { AppState } from '../../app.service';
 @Component({
     selector: 'page-login',
     template: `
-    <h1>
-      Login using Linkedin
-    </h1>
+    <h3 class="page-title text-center">Login using Linkedin</h3>
     
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" (click)="handleLoginClick()">
-        Login with Linkedin
-    </button>
+    <div class="mdl-cell mdl-cell--12-col text-center" style="margin: 4em 0;">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" (click)="handleLoginClick()">
+            Login with Linkedin
+        </button>
+    </div>
   `
 })
 export class PageLoginComponent {

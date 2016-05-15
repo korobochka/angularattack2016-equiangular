@@ -91,7 +91,8 @@ export class PageProfileComponent {
         this.api.profile().subscribe((res) => {
             this.profile = res;
             console.log('profile', this.profile);
-            this.appState.loggedIn = true;
+            this.appState['loggedin'] = true;
+            console.log(this.appState._state);
         }, (err) => {
         });
     }
