@@ -22,7 +22,7 @@ export class API {
 
     constructor(@Inject(AppState) appState, @Inject(Http) http) {
         if (document.location.hostname != "localhost") {
-            this.API_URL = "http://korobochka.org:4567/api";
+            this.API_URL = "https://korobochka.org:4567/api";
         }
 
         this.appState = appState;
