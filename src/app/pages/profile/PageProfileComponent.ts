@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+declare var componentHandler: any;
 
 @Component({
     selector: 'md',
@@ -102,7 +103,7 @@ export class PageProfileComponent {
             this.pendingAddSkills = this.pendingAddSkills.filter(skill =>
                 this.profile.intendedSkills.indexOf(skill) != -1
             );
-            componentHandler.upgradeDom();
+            //componentHandler.upgradeDom();
         }, (err) => {
         });
     }
@@ -114,7 +115,7 @@ export class PageProfileComponent {
                 this.pendingAddSkills = this.pendingAddSkills.filter(skill => skill != this.add_skill_name);
                 this.reloadSkills();
                 this.add_skill_name = '';
-                componentHandler.upgradeDom();
+                //componentHandler.upgradeDom();
             }, (err) => {
             });
         }

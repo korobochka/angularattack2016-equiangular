@@ -49,7 +49,7 @@ export class API {
 
     logout() : any {
         return this.http
-            .post(this.logoutURL)
+            .post(this.logoutURL, '')
             .catch(this.handleError);
     }
 
