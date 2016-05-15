@@ -4,10 +4,11 @@ import { HmrState } from 'angular2-hmr';
 @Injectable()
 export class AppState {
     // @HmrState() is used by HMR to track the state of any object during a hot module replacement
-    @HmrState() _state = { };
+    @HmrState() _state = {
+    };
 
     constructor() {
-
+        window['appState'] = this;
     }
 
     // already return a clone of the current state
@@ -19,6 +20,24 @@ export class AppState {
         throw new Error('do not mutate the `.state` directly');
     }
 
+    addErrorNotification(status, error) {
+        let _errors = this.get('errors');
+
+        if (!_errors || !Array.isArray(_errors)) {
+            this.set('errors', []);
+            _errors = this.get('errors');
+        }
+
+        if (Array.isArray(_errors)) {
+            this.set('errors', [
+                ..._errors,
+                {
+                    status: status,
+                    error: error
+                }
+            ]);
+        }
+    }
 
     get(prop?: any) {
         // use our state getter for the clone

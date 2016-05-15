@@ -4,10 +4,12 @@ import { Component } from '@angular/core';
     selector: 'question',
     inputs: [ 'title', 'body' ],
     template: `
-            <markdown>
-                {{body}}
-                <ng-content></ng-content>
-            </markdown>
+<div class="question-body-container">
+    <markdown>
+        {{body}}
+        <ng-content></ng-content>
+    </markdown>
+</div>
   `
 })
 export class QuestionComponent {
