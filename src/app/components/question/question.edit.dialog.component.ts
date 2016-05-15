@@ -99,6 +99,13 @@ export class QuestionEditDialogComponent {
         }
     }
 
+    setQuestion(question) {
+        this.question = Object.assign({}, question);
+        if (Array.isArray(this.question.skills)) {
+            this.question.skillsText = this.question.skills.map( (el) => el.title ).join("\n");
+        }
+    }
+
     handleAddAnswer() {
         let answers = this.question.answers.slice();
 

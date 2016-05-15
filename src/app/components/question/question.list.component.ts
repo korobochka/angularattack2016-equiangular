@@ -106,7 +106,7 @@ export class QuestionListComponent {
 
     handleEditQuestion(question) {
         if (question) {
-            this.editDialog.question = Object.assign({}, question);
+            this.editDialog.setQuestion(question);
         }
 
         let dialog : any = document.querySelector('#edit-question');
@@ -123,11 +123,20 @@ export class QuestionListComponent {
                     this.addQuestion(this.editDialog.getQuestion());
                 }
             }
-            dialog.close();
+
+            try {
+                dialog.close();
+            }
+            catch(err) {
+            }
         });
 
         dialog.querySelector('button:not([disabled]).close').addEventListener('click', () => {
-            dialog.close();
+            try {
+                dialog.close();
+            }
+            catch(err) {
+            }
         });
 
         dialog.showModal();
@@ -147,11 +156,20 @@ export class QuestionListComponent {
 
             dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', () => {
                 this.deleteQuestion(question.id);
-                dialog.close();
+
+                try {
+                    dialog.close();
+                }
+                catch(err) {
+                }
             });
 
             dialog.querySelector('button:not([disabled]).close').addEventListener('click', () => {
-                dialog.close();
+                try {
+                    dialog.close();
+                }
+                catch(err) {
+                }
             });
 
             dialog.showModal();
