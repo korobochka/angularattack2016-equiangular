@@ -22,7 +22,7 @@ export class ErrorNotificationsComponent {
     }
 
     ngOnChanges(change) {
-        componentHandler.upgradeAllRegistered();
+//        componentHandler.upgradeAllRegistered();
 
         if (!this.showing) {
             let snackbarContainer = document.querySelector('#application-errors');

@@ -110,3 +110,28 @@ footer{
 .static-page-content {
     padding: 10px 20px;
 }
+
+
+.two-col-container {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+.two-col-container > div {
+    width: 50%;
+    min-height: 150px;
+}
+
+
+.mdl-data-table-dense tbody td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.input-no-decoration {
+    background: rgba(0,0,0,.12);
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+}
