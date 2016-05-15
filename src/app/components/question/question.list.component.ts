@@ -78,7 +78,7 @@ export class QuestionListComponent {
             let result = el.querySelector(".mdl-data-table");
             if (result) result.removeAttribute("data-upgraded")
         }
-        componentHandler.upgradeAllRegistered();
+        //componentHandler.upgradeAllRegistered();
     }
 
     reloadList() {
