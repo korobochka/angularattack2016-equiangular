@@ -8,4 +8,4 @@ backend/.idea
 backend/target
 dist
 .idea
-*.properties
+secret.properties

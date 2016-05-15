@@ -6,3 +6,6 @@ Type=simple
 Restart=always
 ExecStart=/bin/sh -c '/bin/bash build_and_run.sh >> service.log 2>&1'
 WorkingDirectory=/home/equiangular/angularattack2016-equiangular
+
+[Install]
+WantedBy=default.target
