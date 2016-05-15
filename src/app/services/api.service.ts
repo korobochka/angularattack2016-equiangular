@@ -68,14 +68,14 @@ export class API {
 
     getSkills() : any {
         return this.http
-            .get(this.skillsURL)
+            .get(this.profileURL + "/skills")
             .map(request => request.json())
             .catch(this.handleError);
     }
 
     createSkill(tag) : any {
         return this.http
-            .post(this.skillsURL, tag)
+            .post(this.profileURL + "/skills", tag)
             .catch(this.handleError);
     }
 

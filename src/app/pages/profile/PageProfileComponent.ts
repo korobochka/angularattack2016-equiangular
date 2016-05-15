@@ -15,13 +15,13 @@ declare var componentHandler: any;
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
             <ul class="mdl-list">
-                <li class="mdl-list__item" *ngFor="let tag of profile.intendedSkills">
+                <li class="mdl-list__item" *ngFor="let skill of profile.intendedSkills">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons">done</i> {{tag}}
+                        <i class="material-icons">done</i> {{skill.title}}
                     </span>
         
                     <span class="mdl-list__item-secondary-action">
-                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" (click)="handleRemoveSkill(tag)">
+                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" (click)="handleRemoveSkill(skill)">
                             <i class="material-icons">remove</i>
                         </button>
                     </span>
@@ -42,13 +42,13 @@ declare var componentHandler: any;
 
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
             <ul class="mdl-list">
-                <li class="mdl-list__item" *ngFor="let tag of profile.intendedSkills">
+                <li class="mdl-list__item" *ngFor="let skill of profile.intendedSkills">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons">done</i> {{tag}}
+                        <i class="material-icons">done</i> {{skill.title}}
                     </span>
         
                     <span class="mdl-list__item-secondary-action">
-                        <div *ngIf="pendingRemovalSkills.concat(pendingAddSkills).indexOf(tag) != -1" class="mdl-progress mdl-js-progress"></div>
+                        <div *ngIf="inPendingStatus(skill)" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
                     </span>
                 </li>
             </ul>
@@ -65,8 +65,8 @@ declare var componentHandler: any;
                 </thead>
                 
                 <tbody>
-                    <tr *ngFor="let tag of profile.intendedSkills">
-                      <td class="mdl-data-table__cell--non-numeric">{{tag}}</td>
+                    <tr *ngFor="let skill of profile.intendedSkills">
+                      <td class="mdl-data-table__cell--non-numeric">{{skill.title}}</td>
                       <td>25</td>
                       <td>$2.90</td>
                     </tr>
@@ -95,6 +95,11 @@ export class PageProfileComponent {
     }
 
     ngOnInit() {
+        this.reloadSkills();
+    }
+
+    inPendingStatus(skill: string) {
+        return (this.pendingRemovalSkills.concat(this.pendingAddSkills).indexOf(skill) != -1);
     }
 
     reloadSkills() {
@@ -103,19 +108,19 @@ export class PageProfileComponent {
             this.pendingAddSkills = this.pendingAddSkills.filter(skill =>
                 this.profile.intendedSkills.indexOf(skill) != -1
             );
-            //componentHandler.upgradeDom();
+            componentHandler.upgradeDom();
         }, (err) => {
         });
     }
 
     handleAddSkill() {
         if (this.add_skill_name) {
+            this.profile.intendedSkills.push(this.add_skill_name);
             this.pendingAddSkills.push(this.add_skill_name);
             this.api.createSkill(this.add_skill_name).subscribe((res) => {
                 this.pendingAddSkills = this.pendingAddSkills.filter(skill => skill != this.add_skill_name);
                 this.reloadSkills();
                 this.add_skill_name = '';
-                //componentHandler.upgradeDom();
             }, (err) => {
             });
         }
@@ -123,9 +128,11 @@ export class PageProfileComponent {
 
     handleRemoveSkill(tag) {
         this.pendingRemovalSkills.push(tag);
+        componentHandler.upgradeDom();
         this.api.deleteSkill(tag).subscribe((res) => {
             this.pendingRemovalSkills = this.pendingRemovalSkills.filter(skill => skill != tag);
             this.profile.intendedSkills = this.profile.intendedSkills.filter(skill => skill != tag);
+            componentHandler.upgradeDom();
         }, (err) => {
         });
     }
