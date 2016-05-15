@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { QuestionTagLineComponent } from './question.tagline.component';
 import { API } from '../../services/api.service';
 declare var componentHandler: any;
@@ -10,10 +10,9 @@ declare var componentHandler: any;
     ],
     template: `
 <table class="mdl-data-table mdl-js-data-table" 
-       style="width: 100%"
-       *ngIf="questionLoaded">
+       style="width: 100%">
 
-  <thead>
+  <thead *ngIf="questionsLoaded">
     <tr>
       <th class="mdl-data-table__cell--non-numeric" style="width: 50%;">Title</th>
       <th>Complexity</th>
@@ -22,7 +21,7 @@ declare var componentHandler: any;
     </tr>
   </thead>
 
-  <tbody>
+  <tbody *ngIf="questionsLoaded">
     <tr *ngFor="let question of questions" class="question-list-row">
       <td class="mdl-data-table__cell--non-numeric">{{question.title}}</td>
       <td>{{question.estimatedComplexity}}</td>
@@ -37,19 +36,24 @@ declare var componentHandler: any;
 })
 export class QuestionListComponent {
     questions: Array<any> = [];
-    questionLoaded: boolean = false;
+    questionsLoaded: boolean = false;
 
-    constructor(private api: API) {
+    constructor(private api: API, private elementRef: ElementRef) {
     }
 
     refreshList() {
+        let el = this.elementRef.nativeElement;
+        if (el) {
+            let result = el.querySelector(".mdl-data-table");
+            if (result) result.removeAttribute("data-upgraded")
+        }
         componentHandler.upgradeAllRegistered();
     }
 
     ngOnInit() {
         this.api.getQuestions().subscribe((res) => {
             this.questions = res;
-            this.questionLoaded = (res != null);
+            this.questionsLoaded = (res != null);
 
             console.log(res);
 
