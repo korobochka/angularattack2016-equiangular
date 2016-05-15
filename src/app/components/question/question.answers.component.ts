@@ -44,7 +44,6 @@ export class QuestionAnswersComponent {
 
     handleChange(e, v) {
         let checkedAnwers = this.answers.filter( el => el.checked );
-        console.log(checkedAnwers);
         this.onChange.emit(checkedAnwers);
     }
 }
