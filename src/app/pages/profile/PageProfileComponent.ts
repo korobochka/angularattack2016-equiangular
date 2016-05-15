@@ -108,7 +108,7 @@ export class PageProfileComponent {
             this.pendingAddSkills = this.pendingAddSkills.filter(skill =>
                 this.profile.intendedSkills.indexOf(skill) != -1
             );
-            componentHandler.upgradeDom();
+            //componentHandler.upgradeDom();
         }, (err) => {
         });
     }
@@ -128,11 +128,9 @@ export class PageProfileComponent {
 
     handleRemoveSkill(tag) {
         this.pendingRemovalSkills.push(tag);
-        componentHandler.upgradeDom();
         this.api.deleteSkill(tag).subscribe((res) => {
             this.pendingRemovalSkills = this.pendingRemovalSkills.filter(skill => skill != tag);
             this.profile.intendedSkills = this.profile.intendedSkills.filter(skill => skill != tag);
-            componentHandler.upgradeDom();
         }, (err) => {
         });
     }
