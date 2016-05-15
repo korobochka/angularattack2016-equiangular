@@ -129,10 +129,13 @@ export class PageTestComponent {
         let requestAnswers = checkedAnwers.map( el => el['id'] );
 
         if (requestAnswers.length > 0) {
+            let submitEnabled = this.submitAnswerEnabled;
+            this.submitAnswerEnabled = false;
+
             this.api.submitAnswer(requestAnswers).subscribe((res) => {
-                console.log(res);
                 this.loadQuestion();
             }, (err) => {
+                this.submitAnswerEnabled = submitEnabled;
             });
         }
     }
