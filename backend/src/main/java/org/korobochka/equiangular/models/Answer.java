@@ -11,9 +11,12 @@ import java.util.List;
 public class Answer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int id;
+	public long id;
+
 	public String body;
+
 	public boolean isCorrect;
-	@ManyToOne
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	public Question questions;
 }

@@ -1,6 +1,6 @@
 package org.korobochka.equiangular.models;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -13,9 +13,13 @@ import javax.persistence.*;
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int id;
+	public long id;
+
 	public String name;
-	public String linkedInToken;
-	@ManyToMany
-	public List<Skill> skills;
+
+	@Column(unique = true)
+	public String linkedInId;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	public Set<Skill> skills;
 }

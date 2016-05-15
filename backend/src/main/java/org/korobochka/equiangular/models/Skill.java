@@ -11,10 +11,7 @@ import java.util.List;
 public class Skill {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int id;
+	public long id;
+
 	public String title;
-	@ManyToMany
-	public List<User> users;
-	@ManyToMany
-	public List<Question> questions;
 }

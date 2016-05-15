@@ -8,11 +8,13 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import org.korobochka.equiangular.models.User;
+import org.korobochka.equiangular.stores.UserStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Session;
 
+import javax.persistence.EntityManager;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -63,7 +65,7 @@ public class AuthService {
 			LIProfile profile = Main.gson.fromJson(LIresponse.getBody(), LIProfile.class);
 
 			Session session = request.session(true);
-			authorizeUser(session, accessToken.getAccessToken(), profile.formattedName);
+			authorizeUser(request, profile.id, profile.formattedName);
 
 			if(session.attribute("return") != null) response.redirect(session.attribute("return"));
 			else response.redirect("/");
@@ -93,13 +95,13 @@ public class AuthService {
 		return session.attribute("user");
 	}
 
-	private static void authorizeUser(Session session, String LIToken, String formattedName) {
+	private static void authorizeUser(Request request, String LIID, String formattedName) {
+		Session session = request.session();
+		EntityManager entityManager = request.attribute("EM");
+		log.info("Authorized user " + formattedName + " with id " + LIID);
 		User user = session.attribute("user");
-		if(user == null) user = new User();
-		session.attribute("user", user);
+		if(user == null) user = UserStore.getUserByLiId(entityManager, LIID);
 		user.name = formattedName;
-
-		// todo store token and user info in DB
-		// load skills from DB
+		session.attribute("user", user);
 	}
 }

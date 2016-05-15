@@ -20,7 +20,7 @@ import static spark.Spark.*;
  * Created by korobochka on 5/14/16.
  */
 public class Main {
-	static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("equiangularDB");
+	private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("equiangularDB");
 
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
 	static final Gson gson = new GsonBuilder()
@@ -31,6 +31,7 @@ public class Main {
 		externalStaticFileLocation("../dist");
 		enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
+		// set up exception handling
 		exception(CustomException.class, (exception, request, response) -> {
 			response.status(HttpStatus.FORBIDDEN_403);
 			response.body(gson.toJson(exception));
@@ -46,12 +47,27 @@ public class Main {
 			response.body(exception.toString());
 		});
 
+		// set up logging
 		before((request, response) -> request.attribute("timeStarted", System.currentTimeMillis()));
 		after((request, response) -> {
 			long timeSpent = System.currentTimeMillis() - (Long)request.attribute("timeStarted");
 			log.info(request.requestMethod() + " " +request.url() + " completed in " + timeSpent + " ms");
 		});
 
+		// set up JPA
+		before((request, response) -> {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			request.attribute("EM", entityManager);
+			entityManager.getTransaction().begin();
+		});
+		after((request, response) -> {
+			EntityManager entityManager = request.attribute("EM");
+			if(entityManager == null) return;
+			entityManager.getTransaction().commit(); // todo rollback on exception?
+			entityManager.close();
+		});
+
+		// other
 		before("/api/*", (request, response) -> {
 			response.type("application/json");
 		});
@@ -61,9 +77,10 @@ public class Main {
 		});
 
 		get("/api/createUser", (req, res) -> {
-			EntityManager entityManager = entityManagerFactory.createEntityManager();
-			entityManager.persist(new User());
-			entityManager.close();
+			EntityManager entityManager = req.attribute("EM");
+			User user = new User();
+			entityManager.persist(user);
+			user.name = "Persisted!";
 			return "User created";
 		});
 
@@ -84,6 +101,7 @@ public class Main {
 			return "OK";
 		});
 
+		// add routes from modules
 		TestService.initRoutes();
 		AuthService.initRoutes();
 		SkillService.initRoutes();

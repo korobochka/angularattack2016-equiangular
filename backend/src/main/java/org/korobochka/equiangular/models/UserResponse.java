@@ -10,13 +10,16 @@ import javax.persistence.*;
 public class UserResponse {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	public int id;
-	@ManyToOne
+	public long id;
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	public User user;
-	@ManyToOne
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	public Question question;
-	@ManyToOne
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	public Answer answer;
-	public long startTime; // start timestamp
-	public long endTime; // end timestamp
+
+	public long elapsedTime; // start timestamp
 }
