@@ -23,6 +23,10 @@ public class Answer {
 	@ManyToOne(fetch = FetchType.EAGER)
 	public Question question;
 
+	@Exclude
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.REMOVE)
+	public List<UserResponse> userResponses;
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
