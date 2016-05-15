@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
                     <thead>
                         <tr>
                             <th class="mdl-data-table__cell--non-numeric">Answers</th>
-                            <th>
+                            <th class="mdl-data-table__cell--non-numeric">
                                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-button--colored mdl-js-ripple-effect" 
                                         (click)="handleAddAnswer()">
                                     <i class="material-icons">add</i>
@@ -43,10 +43,11 @@ import { Component } from '@angular/core';
                                     <input type="text" class="input-no-decoration" [(ngModel)]="answer.title" />
                                 </div>
                             </td>
-                            <td>
+                            <td class="mdl-data-table__cell--non-numeric">
                                 <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleDeleteAnswer(answer)" *ngIf="!answer.new">
                                     <i class="material-icons">clear</i>
                                 </button>
+
                                 <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleSubmitAnswer(answer)" *ngIf="answer.new">
                                     <i class="material-icons">done</i>
                                 </button>
@@ -57,7 +58,7 @@ import { Component } from '@angular/core';
             </div>
 
             <div>
-                <textarea class="mdl-textfield__input input-no-decoration" type="text" style="width:100%;height:100%; position:absolute; left: 0; top: 0; right: 0; bottom: 0;" rows= "3" id="question-edit-body" placeholder="Please enter skills here one per line"></textarea>
+                <textarea class="mdl-textfield__input input-no-decoration" type="text" style="width:100%;height:100%; position:absolute; left: 0; top: 0; right: 0; bottom: 0;" rows= "3" id="question-edit-body" placeholder="Please enter skills here one per line" [(ngModel)]="question.skillsText"></textarea>
             </div>
         </div>
     </div>
@@ -75,6 +76,7 @@ export class QuestionEditDialogComponent {
         title: '',
         body: '',
         skills: [],
+        skillsText: '',
         answers: []
     };
 
@@ -91,6 +93,7 @@ export class QuestionEditDialogComponent {
                 title: '',
                 body: '',
                 skills: [],
+                skillsText: '',
                 answers: []
             }
         }
@@ -127,6 +130,17 @@ export class QuestionEditDialogComponent {
     }
 
     getQuestion() {
+        if (this.question.skillsText != '') {
+            let skills = this.question.skillsText.split("\n");
+            this.question.skills = skills.map( (el) => {
+                return {
+                    id: 0,
+                    title: el
+                };
+            });
+            delete this.question.skillsText;
+        }
+
         return this.question;
     }
 }
