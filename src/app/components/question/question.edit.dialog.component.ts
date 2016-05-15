@@ -132,12 +132,15 @@ export class QuestionEditDialogComponent {
     getQuestion() {
         if (this.question.skillsText && (this.question.skillsText != '')) {
             let skills = this.question.skillsText.split("\n");
+            let index = 0;
+
             this.question.skills = skills.map( (el) => {
                 return {
-                    id: 0,
+                    id: ++index,
                     title: el
                 };
             });
+
             delete this.question.skillsText;
         }
 
