@@ -2,20 +2,20 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'question',
-    inputs: [ 'title', 'body' ],
+    inputs: [ 'body' ],
     template: `
 <div class="question-body-container">
-    <markdown>
-        {{body}}
-        <ng-content></ng-content>
+    <markdown [src]="body">
     </markdown>
 </div>
   `
 })
 export class QuestionComponent {
+    body: string;
+
     constructor() {
     }
 
-    ngOnInit() {
+    ngOnChanges() {
     }
 }

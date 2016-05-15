@@ -13,6 +13,7 @@ export class API {
     logoutURL = this.API_URL + '/auth/logout';
     loginLinkedInURL = this.API_URL + '/auth/li';
     profileURL = this.API_URL + '/profile/0';
+    nextQuestionURL = this.API_URL + '/test/next_question';
     http: Http;
     appState: AppState;
 
@@ -75,6 +76,10 @@ export class API {
     }
 
     nextQuestion() : any {
+        return this.http
+            .post(this.nextQuestionURL, '')
+            .map(request => request.json())
+            .catch(this.handleError);
     }
 
     handleError(error) {

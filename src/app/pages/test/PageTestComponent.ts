@@ -14,14 +14,13 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
     template: `
     <div class="mdl-cell mdl-cell--12-col">
         <question-title>
-            {{questionTitle}}
+            {{question.title}}
         </question-title>
     </div>
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            <question>
-                {{questionBody}}
+            <question [body]="question.body">
             </question>
         </div>
 
@@ -59,7 +58,8 @@ export class PageTestComponent {
     private timerId: any = 0;
     questionTimeStart: Date;
     questionTimeLeft: string = '';
-    questionTitle = 'Some Title';
+    question: any = {};
+    questionLoaded: boolean = false;
     questionAnswers = [
         {
             id: 1,
@@ -78,22 +78,15 @@ export class PageTestComponent {
             body: 'Option 4'
         }
     ];
-    questionBody = `
-            ### H3
-            Some text here
-            #### Emphasis
-            *single asterisks*
-    `;
 
     constructor(private api: API) {
-        // this.api.profile().subscribe((res) => {
-        //     this.profile = res;
-        //     console.log('profile', this.profile);
-        // }, (err) => {
-        // });
     }
 
     ngOnInit() {
+        if (!this.questionLoaded) {
+            this.loadQuestion();
+        }
+
         if (Number(this.timeout) > 0) {
             this.questionTimeStart = new Date();
 
@@ -119,6 +112,16 @@ export class PageTestComponent {
                 }
             }, 500);
         }
+    }
+
+    loadQuestion() {
+        this.api.nextQuestion().subscribe((res) => {
+            this.question = res;
+            this.question.body = this.question.body + '\n## h2\n123';
+            console.log(this.question);
+            this.questionLoaded = true;
+        }, (err) => {
+        });
     }
 
     handleAnswersChange(answers) {

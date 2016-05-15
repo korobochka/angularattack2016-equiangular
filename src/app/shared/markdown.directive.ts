@@ -8,7 +8,7 @@ var marked = require('markdown-converter');
 //@Directive({
 @Directive({
     selector: 'markdown',
-    inputs: [ 'src', 'data' ],
+    inputs: [ 'src' ],
     providers: [ HTTP_PROVIDERS ]
 })
 export class MarkdownComponent {
@@ -24,33 +24,41 @@ export class MarkdownComponent {
         this.element = elementRef.nativeElement;
     }
 
-    ngOnInit () {
-        // element with 'data' attribute set
-        if (this.data) {
-            this.fromData(this.data);
+    ngOnInit() {
+        if (this.src != '') {
+            this.fromRAW(this.src);
         }
-        // element containing markdown
-        if (!this.src) {
-            this.fromRAW();
+        else {
+            this.fromRAW(this.element.innerHTML);
         }
     }
 
-    fromData(data) {
-        let raw = data;
-        let html = this.process(this.prepare(raw));
-        this.element.innerHTML = html;
-        this.highlight(html);
+    ngOnChanges() {
+        if (this.src != '') {
+            this.fromRAW(this.src);
+        }
+        else {
+            this.fromRAW(this.element.innerHTML);
+        }
     }
 
-    fromRAW() {
-        let raw = this.element.innerHTML;
-        let html = this.process(this.prepare(raw));
-        this.element.innerHTML = html;
-        this.highlight(html);
+    fromRAW(raw) {
+        if (raw) {
+            let html = this.process(this.prepare(raw));
+
+            this.element.innerHTML = html;
+            this.highlight(html);
+        }
+        else {
+            this.element.innerHTML = '';
+        }
     }
 
     prepare(raw) {
-        return raw.split('\n').map((line) => line.trim()).join('\n')
+        if (raw) {
+            return raw.split('\n').map((line) => line.trim()).join('\n')
+        }
+        else return '';
     }
 
     process(markdown) {
