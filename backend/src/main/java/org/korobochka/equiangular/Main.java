@@ -41,7 +41,7 @@ public class Main {
 		before((request, response) -> request.attribute("timeStarted", System.currentTimeMillis()));
 		after((request, response) -> {
 			long timeSpent = System.currentTimeMillis() - (Long)request.attribute("timeStarted");
-			log.info(request.url() + " completed in " + timeSpent + " ms");
+			log.info(request.requestMethod() + " " +request.url() + " completed in " + timeSpent + " ms");
 		});
 
 		before("/api/*", (request, response) -> {
