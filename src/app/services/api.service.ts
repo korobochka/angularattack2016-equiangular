@@ -12,7 +12,7 @@ export class API {
     skillsURL = this.API_URL + '/skills';
     logoutURL = this.API_URL + '/auth/logout';
     loginLinkedInURL = this.API_URL + '/auth/li';
-    profileURL = this.API_URL + '/auth/profile';
+    profileURL = this.API_URL + '/profile/0';
     http: Http;
     appState: AppState;
 
@@ -29,7 +29,7 @@ export class API {
 
     logout() : any {
         return this.http
-            .get(this.logoutURL)
+            .post(this.logoutURL)
             .catch(this.handleError);
     }
 
