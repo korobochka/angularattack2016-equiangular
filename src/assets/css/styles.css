@@ -67,6 +67,25 @@ footer{
 }
 
 
+.question-list-row {
+    cursor: pointer;
+}
+
+
+.question-tags-container {
+    font-size: 11px;
+}
+.question-tags-container .question-tag {
+    white-space: nowrap;
+    margin-right: 8px;
+    margin-bottom: 2px;
+    padding: 2px 3px;
+    color: inherit;
+    background: #f1f1f1;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+
 .text-left {
     text-align: left;
 }
