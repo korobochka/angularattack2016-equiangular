@@ -19,4 +19,20 @@ public class Answer {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	public Question questions;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Answer answer = (Answer) o;
+
+		return id == answer.id;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (id ^ (id >>> 32));
+	}
 }

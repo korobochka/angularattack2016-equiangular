@@ -1,6 +1,5 @@
 package org.korobochka.equiangular.stores;
 
-import org.korobochka.equiangular.CustomException;
 import org.korobochka.equiangular.PersistenceUtil;
 import org.korobochka.equiangular.models.Skill;
 

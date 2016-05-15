@@ -92,16 +92,16 @@ public class AuthService {
 
 	public static User getCurrentUser(Request request) throws CustomException {
 		Session session = checkUserAuthorization(request);
-		return session.attribute("user");
+		EntityManager entityManager = request.attribute("EM");
+		return UserStore.getUserById(entityManager, session.attribute("user"));
 	}
 
 	private static void authorizeUser(Request request, String LIID, String formattedName) {
 		Session session = request.session();
 		EntityManager entityManager = request.attribute("EM");
 		log.info("Authorized user " + formattedName + " with id " + LIID);
-		User user = session.attribute("user");
-		if(user == null) user = UserStore.getUserByLiId(entityManager, LIID);
+		User user = UserStore.getUserByLiId(entityManager, LIID);
 		user.name = formattedName;
-		session.attribute("user", user);
+		session.attribute("user", user.id);
 	}
 }

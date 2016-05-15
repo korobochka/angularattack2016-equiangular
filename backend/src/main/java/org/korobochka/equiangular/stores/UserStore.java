@@ -22,4 +22,8 @@ public class UserStore {
 		}
 		return user;
 	}
+
+	public static User getUserById(EntityManager entityManager, long id) {
+		return entityManager.find(User.class, id);
+	}
 }
