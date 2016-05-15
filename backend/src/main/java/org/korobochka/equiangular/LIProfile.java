@@ -1,4 +1,4 @@
-package org.korobochka.equiangular.models;
+package org.korobochka.equiangular;
 
 /**
  * Created by korobochka on 5/14/16.

@@ -3,10 +3,16 @@ package org.korobochka.equiangular;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.http.HttpStatus;
+import org.korobochka.equiangular.models.Skill;
+import org.korobochka.equiangular.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -14,6 +20,8 @@ import static spark.Spark.*;
  * Created by korobochka on 5/14/16.
  */
 public class Main {
+	static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("equiangularDB");
+
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
 	static final Gson gson = new GsonBuilder()
 			.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)
@@ -52,9 +60,17 @@ public class Main {
 			return "pong";
 		});
 
+		get("/api/createUser", (req, res) -> {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			entityManager.persist(new User());
+			entityManager.close();
+			return "User created";
+		});
+
 		get("/api/throw", ((request, response) -> {
 			throw new CustomException("test reason");
 		}));
+
 		// stop server on github hook
 		// todo security
 		post("/reload/4401dba7-2528-455d-a1d4-3e05d2ab4281", (request, response) -> {
