@@ -25,7 +25,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         </div>
 
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            <question-answers [answers]="questionAnswers"
+            <question-answers [answers]="question.answers"
                               multiply="false"
                               (onChange)="handleAnswersChange($event)">
             </question-answers>
@@ -52,7 +52,6 @@ export class PageTestComponent {
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
-    timeout: any = 90;
     timeLeft: any = 0;
     private timeExpired: boolean = false;
     private timerId: any = 0;
@@ -60,43 +59,40 @@ export class PageTestComponent {
     questionTimeLeft: string = '';
     question: any = {};
     questionLoaded: boolean = false;
-    questionAnswers = [
-        {
-            id: 1,
-            body: 'some answer'
-        },
-        {
-            id: 2,
-            body: 'Option 2'
-        },
-        {
-            id: 3,
-            body: 'Option 3'
-        },
-        {
-            id: 4,
-            body: 'Option 4'
-        }
-    ];
 
     constructor(private api: API) {
     }
 
     ngOnInit() {
+        console.log(this);
         if (!this.questionLoaded) {
             this.loadQuestion();
         }
+    }
 
-        if (Number(this.timeout) > 0) {
+    loadQuestion() {
+        this.api.nextQuestion().subscribe((res) => {
+            this.question = res;
+            //this.question.timeLimit = 75;
+            this.questionLoaded = true;
+
+            this.prepareTimers();
+        }, (err) => {
+        });
+    }
+
+    prepareTimers() {
+        if (Number(this.question.timeLimit) > 0) {
             this.questionTimeStart = new Date();
 
             if (this.timerId) clearInterval(this.timerId);
             this.timeExpired = false;
 
             this.timerId = setInterval(() => {
-                if (Number(this.timeout) > 0) {
+                if (Number(this.question.timeLimit) > 0) {
                     let currentDate = new Date();
-                    this.timeLeft = this.timeout - Math.floor((currentDate.getTime() - this.questionTimeStart.getTime()) / 1000);
+                    this.timeLeft = Number(this.question.timeLimit) - Math.floor((currentDate.getTime() - this.questionTimeStart.getTime()) / 1000);
+                    console.log(this.timeLeft);
 
                     if (this.timeLeft > 0) {
                         let seconds = this.timeLeft % 60;
@@ -112,16 +108,6 @@ export class PageTestComponent {
                 }
             }, 500);
         }
-    }
-
-    loadQuestion() {
-        this.api.nextQuestion().subscribe((res) => {
-            this.question = res;
-            this.question.body = this.question.body + '\n## h2\n123';
-            console.log(this.question);
-            this.questionLoaded = true;
-        }, (err) => {
-        });
     }
 
     handleAnswersChange(answers) {
