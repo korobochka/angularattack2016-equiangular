@@ -27,6 +27,10 @@ app {
     height: 100%;
     padding: 0 16px;
 }
+.content-container h3.page-title {
+    padding: 0 16px;
+    margin-bottom: 0;
+}
 md-content {
     display: flex;
     flex-direction: column;

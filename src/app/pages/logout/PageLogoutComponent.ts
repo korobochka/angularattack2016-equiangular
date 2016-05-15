@@ -3,7 +3,7 @@ import { Router } from '@angular/router-deprecated';
 import { API } from '../../services/api.service';
 
 @Component({
-    selector: 'md',
+    selector: 'page-logout',
     template: `
     <p>Logging out</p>
     `

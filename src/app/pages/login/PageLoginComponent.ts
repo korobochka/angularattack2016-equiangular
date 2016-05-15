@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
 
 @Component({
-    selector: 'md',
+    selector: 'page-login',
     template: `
     <h1>
       Login using Linkedin

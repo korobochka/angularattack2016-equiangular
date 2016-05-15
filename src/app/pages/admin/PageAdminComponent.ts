@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'about',
+    selector: 'page-admin',
     template: `
-    <h1>Title of our Application</h1>
-    Few words about functions, how to install and so forth
+    <h3 class="page-title">Title of our Application</h3>
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+            Few words about functions, how to install and so forth
+        </div>
+    </div>
   `
 })
 export class PageAdminComponent {

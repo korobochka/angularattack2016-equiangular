@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'md',
+    selector: 'page-markdown',
     template: `
     <h1>
       Example of Markdown

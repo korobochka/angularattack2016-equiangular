@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
 
 @Component({
-    selector: 'md',
+    selector: 'page-api',
     template: `
     <h1>
       API caller

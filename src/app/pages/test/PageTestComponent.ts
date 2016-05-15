@@ -5,7 +5,7 @@ import { QuestionTitleComponent } from '../../components/question/question.title
 import { QuestionAnswersComponent } from '../../components/question/question.answers.component';
 
 @Component({
-    selector: 'md',
+    selector: 'page-test',
     directives: [
         QuestionComponent,
         QuestionTitleComponent,
@@ -51,7 +51,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
   `
 })
 export class PageTestComponent {
-    noQuestion: boolean = true;
+    noQuestion: boolean = false;
     submitAnswerEnabled = false;
     response: string = '';
     profile: any = {}
