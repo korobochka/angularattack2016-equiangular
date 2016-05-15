@@ -6,14 +6,13 @@ import { QuestionComponent} from '../../components/question/question.component';
     selector: 'md',
     directives: [QuestionComponent],
     template: `
-  <md-card>
     <h1>
-      Test
+      {{questionTitle}}
     </h1>
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            <question [title]="questionTitle">
+            <question>
                 {{questionBody}}
             </question>
         </div>
@@ -26,8 +25,6 @@ import { QuestionComponent} from '../../components/question/question.component';
             <i class="material-icons">add</i> Submit Answer
         </button>
     </div>
-  </md-card>
-
   `
 })
 export class PageTestComponent {

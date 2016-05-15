@@ -4,7 +4,6 @@ import { API } from '../../services/api.service';
 @Component({
     selector: 'md',
     template: `
-  <md-card>
     <h1>
       API caller
     </h1>
@@ -20,8 +19,6 @@ import { API } from '../../services/api.service';
     <md-progress-circle mode="indeterminate" *ngIf="inProgress"></md-progress-circle>
     
     <pre *ngIf="requestCompleted">{{response | json}}</pre>
-  </md-card>
-
   `
 })
 export class PageAPIComponent {

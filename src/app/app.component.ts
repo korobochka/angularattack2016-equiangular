@@ -22,7 +22,7 @@ import { RouterActive } from './router-active';
         require('../assets/css/styles.css'),
     ],
     template: `
-    <md-content>
+    <md-content style="height: 100%">
       <md-toolbar color="primary">
           <button md-button router-active [routerLink]=" ['About'] ">
             About
@@ -57,14 +57,14 @@ import { RouterActive } from './router-active';
       
       <md-progress-bar mode="indeterminate" color="primary" *ngIf="loading"></md-progress-bar>
 
-      <router-outlet></router-outlet>
-
-      <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+      <div class="content-container">
+          <router-outlet></router-outlet>
+      </div>
       
       <footer>
         &copy; Made by Equiangular Team for&nbsp;<a href="https://www.angularattack.com/" target="_blank">Angular Attack</a>&nbsp;hackathon. May 14-15, 2016
       </footer>
-      </md-content>
+  </md-content>
   `
 })
 @RouteConfig([

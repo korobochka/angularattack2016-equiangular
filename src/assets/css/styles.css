@@ -1,6 +1,6 @@
 html, body {
     height: 100%;
-    background: #F8F8F8;
+    background: #fff;
 }
 button.active{
     background: #fff;
@@ -19,9 +19,18 @@ button.active:hover{
 .home{
     flex: 1;
 }
+app {
+    height: 100%;
+}
+.content-container {
+    height: 100%;
+}
 md-content {
     display: flex;
     flex-direction: column;
+    height: 100%;
+}
+md-content > md {
     height: 100%;
 }
 footer{
