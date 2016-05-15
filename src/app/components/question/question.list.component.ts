@@ -1,12 +1,17 @@
 import { Component, ElementRef } from '@angular/core';
 import { QuestionTagLineComponent } from './question.tagline.component';
+import { QuestionDeleteDialogComponent } from './question.delete.dialog.component';
 import { API } from '../../services/api.service';
+
 declare var componentHandler: any;
+declare var dialogPolyfill: any;
+
 
 @Component({
     selector: 'question-list',
     directives: [
-        QuestionTagLineComponent
+        QuestionTagLineComponent,
+        QuestionDeleteDialogComponent
     ],
     template: `
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" 
@@ -35,13 +40,17 @@ declare var componentHandler: any;
             <i class="material-icons">edit</i>
         </button>
 
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleDeleteQuestion()">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleDeleteQuestion(question)">
             <i class="material-icons">clear</i>
         </button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<question-delete-dialog>
+</question-delete-dialog>
+
   `
 })
 export class QuestionListComponent {
@@ -60,7 +69,7 @@ export class QuestionListComponent {
         componentHandler.upgradeAllRegistered();
     }
 
-    ngOnInit() {
+    reloadList() {
         this.api.getQuestions().subscribe((res) => {
             this.questions = res;
             this.questionsLoaded = (res != null);
@@ -72,6 +81,10 @@ export class QuestionListComponent {
         });
     }
 
+    ngOnInit() {
+        this.reloadList();
+    }
+
     ngOnChanges() {
     }
 
@@ -79,7 +92,33 @@ export class QuestionListComponent {
         // TODO: Edit handler
     }
 
-    handleDeleteQuestion() {
-        // TODO: Delete handler
+    handleDeleteQuestion(question) {
+        if (question) {
+            let dialog : any = document.querySelector('#delete-question');
+
+            if (!dialog.showModal) {
+                dialogPolyfill.registerDialog(dialog);
+            }
+
+            dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', () => {
+                this.deleteQuestion(question.id);
+                dialog.close();
+            });
+
+            dialog.querySelector('button:not([disabled]).close').addEventListener('click', () => {
+                dialog.close();
+            });
+
+            dialog.showModal();
+        }
+    }
+
+    deleteQuestion(id) {
+        this.api.deleteQuestion(id).subscribe((res) => {
+            console.log(res);
+
+            this.reloadList();
+        }, (err) => {
+        });
     }
 }

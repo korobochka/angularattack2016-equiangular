@@ -107,6 +107,16 @@ export class API {
             .catch(this.handleError);
     }
 
+    deleteQuestion(id) : any {
+        let requestOptions = new RequestOptions({
+            method: RequestMethod.Delete,
+        });
+
+        return this.http
+            .request(this.questionsUrl + "/" + id, requestOptions)
+            .catch(this.handleError);
+    }
+
     submitAnswer(answers) : any {
         return this.http
             .post(this.submitAnswerURL, JSON.stringify(answers))
