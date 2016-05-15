@@ -44,6 +44,7 @@ export class QuestionAnswerComponent {
         if (el) {
             result = el.querySelector("input").checked;
         }
+        console.log('handleChange', result);
         this.answer.checked = result;
 
         this.onChange.emit(this.answer);

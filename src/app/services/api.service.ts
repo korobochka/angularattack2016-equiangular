@@ -14,6 +14,7 @@ export class API {
     loginLinkedInURL = this.API_URL + '/auth/li';
     profileURL = this.API_URL + '/profile/0';
     nextQuestionURL = this.API_URL + '/test/next_question';
+    submitAnswerURL = this.API_URL + '/test/submit_answer';
     http: Http;
     appState: AppState;
 
@@ -72,7 +73,11 @@ export class API {
             .catch(this.handleError);
     }
 
-    submitAnswer() : any {
+    submitAnswer(answers) : any {
+        return this.http
+            .post(this.submitAnswerURL, answers)
+            .map(request => request.json())
+            .catch(this.handleError);
     }
 
     nextQuestion() : any {
