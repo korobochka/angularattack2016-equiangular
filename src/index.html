@@ -13,38 +13,121 @@
     <base href="<%= webpackConfig.metadata.baseUrl %>">
 
     <style>
-        .load-bar {
-            position: relative;
-            margin-top: 20px;
+        body,
+        html,
+        app {
+            padding: 0;
+            margin: 0;
             width: 100%;
-            height: 6px;
-            background-color: #fdba2c;
-        }
-        .bar {
-            content: "";
-            display: inline;
-            position: absolute;
-            width: 0;
             height: 100%;
-            left: 50%;
-            text-align: center;
         }
-        .bar:nth-child(1) {
-            background-color: #da4733;
-            animation: loading 3s linear infinite;
+        .dizzy-gillespie {
+            -webkit-filter: saturate(3);
+            filter: saturate(3);
+            margin-top: 20%;
+            margin-left: 45%;
+            width: 0.1px;
+            height: 0.1px;
+            border: 40px solid transparent;
+            border-radius: 5px;
+            -webkit-animation: loader 3s ease-in infinite, spin 1s linear infinite;
+            animation: loader 3s ease-in infinite, spin 1s linear infinite;
         }
-        .bar:nth-child(2) {
-            background-color: #3b78e7;
-            animation: loading 3s linear 1s infinite;
+
+        .dizzy-gillespie::before {
+            -webkit-filter: saturate(0.3);
+            filter: saturate(0.3);
+            display: block;
+            position: absolute;
+            z-index: -1;
+            margin-left: -40px;
+            margin-top: -40px;
+            content: '';
+            height: 0.1;
+            width: 0.1;
+            border: 40px solid transparent;
+            border-radius: 5px;
+            -webkit-animation: loader 2s ease-in infinite reverse, spin 0.8s linear infinite reverse;
+            animation: loader 2s ease-in infinite reverse, spin 0.8s linear infinite reverse;
         }
-        .bar:nth-child(3) {
-            background-color: #fdba2c;
-            animation: loading 3s linear 2s infinite;
+
+        .dizzy-gillespie::after {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            margin-left: -10px;
+            margin-top: -10px;
+            content: '';
+            height: 20px;
+            width: 20px;
+            border-radius: 20px;
+            background-color: white;
         }
-        @keyframes loading {
-            from {left: 50%; width: 0;z-index:100;}
-            33.3333% {left: 0; width: 100%;z-index: 10;}
-            to {left: 0; width: 100%;}
+
+        @-webkit-keyframes loader {
+            0% {
+                border-bottom-color: transparent;
+                border-top-color: #114357;
+            }
+            25% {
+                border-left-color: transparent;
+                border-right-color: #826C75;
+            }
+            50% {
+                border-top-color: transparent;
+                border-bottom-color: #F29492;
+            }
+            75% {
+                border-right-color: transparent;
+                border-left-color: #826C75;
+            }
+            100% {
+                border-bottom-color: transparent;
+                border-top-color: #114357;
+            }
+        }
+
+        @keyframes loader {
+            0% {
+                border-bottom-color: transparent;
+                border-top-color: #114357;
+            }
+            25% {
+                border-left-color: transparent;
+                border-right-color: #826C75;
+            }
+            50% {
+                border-top-color: transparent;
+                border-bottom-color: #F29492;
+            }
+            75% {
+                border-right-color: transparent;
+                border-left-color: #826C75;
+            }
+            100% {
+                border-bottom-color: transparent;
+                border-top-color: #114357;
+            }
+        }
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(-360deg);
+                transform: rotate(-360deg);
+            }
+        }
+        @keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(-360deg);
+                transform: rotate(-360deg);
+            }
         }
     </style>
 
@@ -53,11 +136,7 @@
 <body>
 
 <app>
-    <div class="load-bar">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
+    <div class="dizzy-gillespie"></div>
 </app>
 
 <% if (webpackConfig.metadata.ENV === 'development') { %>
