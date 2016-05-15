@@ -6,12 +6,12 @@ declare var componentHandler: any;
 @Component({
     selector: 'md',
     template: `
-    <h1 class="mdl-typography--display-3">
+    <h3 class="page-title">
         Profile
-        <span class="mdl-typography--display-1">
+        <span class="mdl-typography--headline">
             {{profile.name}}
         </span>
-    </h1>
+    </h3>
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">

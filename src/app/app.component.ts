@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, Inject } from '@angular/core';
-import { RouteConfig, Router, Location } from '@angular/router-deprecated';
+import { RouteConfig, Router } from '@angular/router-deprecated';
 
 import { AppState } from './app.service';
 import { RouterActive } from './router-active';
