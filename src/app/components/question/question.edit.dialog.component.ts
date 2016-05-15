@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     selector: 'question-edit-dialog',
     inputs: [ 'question' ],
     template: `
-<dialog class="mdl-dialog" id="edit-question" style="width: 60%">
+<dialog class="mdl-dialog" id="edit-question" style="width: 50%">
     <h4 class="mdl-dialog__title">Question</h4>
     <div class="mdl-dialog__content">
         <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
         
         <div class="two-col-container">
             <div>
-                <table class="mdl-data-table mdl-data-table-dense mdl-js-data-table mdl-shadow--2dp">
+                <table class="mdl-data-table mdl-data-table-dense mdl-js-data-table mdl-shadow--2dp" style="width:100%">
                     <thead>
                         <tr>
                             <th class="mdl-data-table__cell--non-numeric">Answers</th>
@@ -44,8 +44,11 @@ import { Component } from '@angular/core';
                                 </div>
                             </td>
                             <td>
-                                <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleDeleteAnswer()" *ngIf="!answer.new">
+                                <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleDeleteAnswer(answer)" *ngIf="!answer.new">
                                     <i class="material-icons">clear</i>
+                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleSubmitAnswer(answer)" *ngIf="answer.new">
+                                    <i class="material-icons">done</i>
                                 </button>
                             </td>
                         </tr>
@@ -54,10 +57,7 @@ import { Component } from '@angular/core';
             </div>
 
             <div>
-                <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
-                    <textarea class="mdl-textfield__input" type="text" style="width:100%;height:100%;" rows= "3" id="question-edit-body" ></textarea>
-                    <label class="mdl-textfield__label" for="question-edit-body">Text...</label>
-                </div>
+                <textarea class="mdl-textfield__input input-no-decoration" type="text" style="width:100%;height:100%; position:absolute; left: 0; top: 0; right: 0; bottom: 0;" rows= "3" id="question-edit-body" placeholder="Please enter skills here one per line"></textarea>
             </div>
         </div>
     </div>
@@ -98,6 +98,13 @@ export class QuestionEditDialogComponent {
 
     handleAddAnswer() {
         let answers = this.question.answers.slice();
+
+        // if any questions are new - add them to list
+        answers = answers.map( (el) => {
+            el.new = false;
+            return el;
+        });
+
         answers.push({
             title: 'new',
             correct: false,
@@ -106,5 +113,16 @@ export class QuestionEditDialogComponent {
         this.question.answers = answers;
 
         console.log(this.question.answers);
+    }
+
+    handleDeleteAnswer(answer) {
+        let index = this.question.answers.indexOf(answer);
+        if (index >= 0) {
+            this.question.answers.splice(index, 1);
+        }
+    }
+
+    handleSubmitAnswer(answer) {
+        answer.new = false;
     }
 }

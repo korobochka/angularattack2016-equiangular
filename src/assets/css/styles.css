@@ -120,8 +120,14 @@ footer{
 .two-col-container > div {
     width: 50%;
     min-height: 150px;
+    position: relative;
 }
-
+.two-col-container > div:first-child {
+    padding-right: 2.5%;
+}
+.two-col-container > div:last-child {
+    padding-left: 2.5%;
+}
 
 .mdl-data-table-dense tbody td {
     padding-top: 4px;
