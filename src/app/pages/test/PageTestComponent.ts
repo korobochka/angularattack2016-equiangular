@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+import { QuestionComponent} from '../../components/question/question.component';
 
 @Component({
     selector: 'md',
+    directives: [QuestionComponent],
     template: `
   <md-card>
     <h1>
@@ -11,12 +13,9 @@ import { API } from '../../services/api.service';
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            <markdown>
-                ### H3
-                Some text here
-                #### Emphasis
-                *single asterisks*
-            </markdown>
+            <question [title]="questionTitle">
+                {{questionBody}}
+            </question>
         </div>
 
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
@@ -37,6 +36,15 @@ export class PageTestComponent {
     response: string = '';
     profile: any = {}
     add_skill_name: string = '';
+    questionTitle = 'Some Title';
+    questionBody = `
+            <markdown>
+                ### H3
+                Some text here
+                #### Emphasis
+                *single asterisks*
+            </markdown>
+    `;
 
     constructor(private api: API) {
         this.api.profile().subscribe((res) => {

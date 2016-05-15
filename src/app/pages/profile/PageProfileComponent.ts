@@ -48,9 +48,7 @@ import { API } from '../../services/api.service';
                     </span>
         
                     <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
-                            <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
-                        </label>
+                        <div class="mdl-progress mdl-js-progress"></div>
                     </span>
                 </li>
             </ul>
