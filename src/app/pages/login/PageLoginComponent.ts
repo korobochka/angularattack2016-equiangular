@@ -26,9 +26,9 @@ export class PageLoginComponent {
         let returnHost = '';
 
         if (document.location.hostname != "localhost") {
-            host = "http://korobochka.org:4567";
+            host = "https://korobochka.org:4567";
 
-            returnHost = 'http://' + document.location.hostname;
+            returnHost = 'https://' + document.location.hostname;
             if (document.location.port.toString() != '80') {
                 returnHost += ':' + document.location.port;
             }

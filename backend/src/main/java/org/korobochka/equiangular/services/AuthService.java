@@ -45,7 +45,7 @@ public class AuthService {
 		LIService = new ServiceBuilder()
 			.apiKey(secrets.getProperty("li.key")).apiSecret(secrets.getProperty("li.secret"))
 			.scope("r_basicprofile")
-			.callback(secrets.getProperty("li.callback", "http://korobochka.org:4567/api/auth/li_callback"))
+			.callback(secrets.getProperty("li.callback", "https://korobochka.org:4567/api/auth/li_callback"))
 			.state("some_params") //todo
 			.build(LinkedInApi20.instance());
 	}
