@@ -37,6 +37,10 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
             Profile
           </button>
 
+          <button *ngIf="appState.loggedin" md-button router-active [routerLink]=" ['Stats'] ">
+            Stats
+          </button>
+
           <button *ngIf="!appState.loggedin" md-button router-active [routerLink]=" ['Login'] ">
             Login
           </button>
@@ -80,6 +84,11 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
         path: '/profile',
         name: 'Profile',
         loader: () => require('es6-promise!./pages/profile/PageProfileComponent')('PageProfileComponent')
+    },
+    {
+        path: '/stats',
+        name: 'Stats',
+        loader: () => require('es6-promise!./pages/stats/PageStatsComponent')('PageStatsComponent')
     },
     {
         path: '/login',
