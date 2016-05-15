@@ -7,20 +7,38 @@ import { AppState } from '../app.service';
 @Injectable()
 export class API {
     API_URL = '/api';
-    pingURL = this.API_URL + '/ping';
-    wrongURL = this.API_URL + '/throw';
-    skillsURL = this.API_URL + '/skills';
-    logoutURL = this.API_URL + '/auth/logout';
-    loginLinkedInURL = this.API_URL + '/auth/li';
-    profileURL = this.API_URL + '/profile/0';
-    nextQuestionURL = this.API_URL + '/test/next_question';
-    submitAnswerURL = this.API_URL + '/test/submit_answer';
+    pingURL : string;
+    wrongURL : string;
+    skillsURL : string;
+    logoutURL : string;
+    loginLinkedInURL : string;
+    profileURL : string;
+    nextQuestionURL : string;
+    submitAnswerURL : string;
+
     http: Http;
     appState: AppState;
 
     constructor(@Inject(AppState) appState, @Inject(Http) http) {
+        if (document.location.hostname != "localhost") {
+            this.API_URL = "http://korobochka.org:4567/api";
+        }
+
         this.appState = appState;
         this.http = http;
+
+        this.setupEndpoints();
+    }
+
+    setupEndpoints() {
+        this.pingURL = this.API_URL + '/ping';
+        this.wrongURL = this.API_URL + '/throw';
+        this.skillsURL = this.API_URL + '/skills';
+        this.logoutURL = this.API_URL + '/auth/logout';
+        this.loginLinkedInURL = this.API_URL + '/auth/li';
+        this.profileURL = this.API_URL + '/profile/0';
+        this.nextQuestionURL = this.API_URL + '/test/next_question';
+        this.submitAnswerURL = this.API_URL + '/test/submit_answer';
     }
 
     ping() : any {
