@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { QuestionTagLineComponent } from './question.tagline.component';
 import { QuestionDeleteDialogComponent } from './question.delete.dialog.component';
+import { QuestionEditDialogComponent } from './question.edit.dialog.component';
 import { API } from '../../services/api.service';
 
 declare var componentHandler: any;
@@ -11,7 +12,8 @@ declare var dialogPolyfill: any;
     selector: 'question-list',
     directives: [
         QuestionTagLineComponent,
-        QuestionDeleteDialogComponent
+        QuestionDeleteDialogComponent,
+        QuestionEditDialogComponent
     ],
     template: `
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" 
@@ -48,8 +50,18 @@ declare var dialogPolyfill: any;
   </tbody>
 </table>
 
+<div style="margin-top: 2em">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+            (click)="handleAddClick()">
+        Add Question
+    </button>
+</div>
+
 <question-delete-dialog>
 </question-delete-dialog>
+
+<question-edit-dialog>
+</question-edit-dialog>
 
   `
 })
@@ -88,8 +100,25 @@ export class QuestionListComponent {
     ngOnChanges() {
     }
 
-    handleEditQuestion() {
-        // TODO: Edit handler
+    handleEditQuestion(question) {
+        let dialog : any = document.querySelector('#edit-question');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+
+        dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', function () {
+            dialog.close();
+        });
+
+        dialog.querySelector('button:not([disabled]).close').addEventListener('click', () => {
+            dialog.close();
+        });
+
+        dialog.showModal();
+    }
+
+    handleAddClick() {
+        this.handleEditQuestion(null);
     }
 
     handleDeleteQuestion(question) {

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     inputs: [ ],
     template: `
 <dialog class="mdl-dialog" id="delete-question">
-    <h4 class="mdl-dialog__title">Delete Question?</h4>
+    <h4 class="mdl-dialog__title">Delete?</h4>
     <div class="mdl-dialog__content">
       <p>
         Are you really sure you want to delete a question?

@@ -17,13 +17,6 @@ declare var dialogPolyfill: any;
             <question-list>
             </question-list>
         </div>
-
-        <div class="mdl-cell mdl-cell--12-col">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
-                    (click)="handleAddClick()">
-                Add Question
-            </button>
-        </div>
     </div>
   `
 })
@@ -32,19 +25,5 @@ export class PageAdminComponent {
     }
 
     ngOnInit() {
-    }
-
-    handleAddClick() {
-        // TODO: Add Click
-        let dialog : any = document.querySelector('#add-question');
-        if (!dialog.showModal) {
-            dialogPolyfill.registerDialog(dialog);
-        }
-
-        dialog.querySelector('button:not([disabled])').addEventListener('click', function () {
-            dialog.close();
-        });
-
-        dialog.showModal();
     }
 }
