@@ -26,6 +26,13 @@ export class API {
         }
 
         this.appState = appState;
+        // TODO: Use official Angular2 CORS support when merged (https://github.com/angular/angular/issues/4231).
+        let _build = (<any> http)._backend._browserXHR.build;
+        (<any> http)._backend._browserXHR.build = () => {
+            let _xhr =  _build();
+            _xhr.withCredentials = true;
+            return _xhr;
+        };
         this.http = http;
 
         this.setupEndpoints();
@@ -77,14 +84,14 @@ export class API {
 
     getSkills() : any {
         return this.http
-            .get(this.skillsURL)
+            .get(this.profileURL + "/skills")
             .map(request => request.json())
             .catch(this.handleError);
     }
 
     createSkill(tag) : any {
         return this.http
-            .post(this.skillsURL, tag)
+            .post(this.profileURL + "/skills", tag)
             .catch(this.handleError);
     }
 
