@@ -144,6 +144,15 @@ export class QuestionEditDialogComponent {
             delete this.question.skillsText;
         }
 
+        let index = 0;
+        this.question.answers = this.question.answers.map( (el) => {
+            return {
+                id: ++index,
+                body: el.title,
+                isCorrect: el.correct
+            };
+        });
+
         return this.question;
     }
 }

@@ -3,6 +3,7 @@ package org.korobochka.equiangular.services;
 import org.korobochka.equiangular.Main;
 import org.korobochka.equiangular.models.Answer;
 import org.korobochka.equiangular.models.Question;
+import org.korobochka.equiangular.models.Skill;
 import org.korobochka.equiangular.stores.QuestionStore;
 import org.korobochka.equiangular.stores.SkillStore;
 import org.slf4j.Logger;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 import javax.persistence.EntityManager;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static spark.Spark.*;
 
@@ -49,6 +53,12 @@ public class QuestionService {
 		post("/api/questions", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			Question question = Main.gson.fromJson(request.body(), Question.class);
+			Set<Skill> skills = new HashSet<>();
+			question.skills.forEach(s -> { skills.add(SkillStore.getSkillByTitle(entityManager, s.title)); });
+			question.skills = skills;
+			Set<Answer> answers = question.answers;
+			question.answers = new HashSet<>();
+			answers.forEach(a -> { QuestionStore.attachAnswer(question, QuestionStore.createAnswer(entityManager, a.body, a.isCorrect)); });
 			entityManager.persist(question);
 			return question;
 		}, Main.gson::toJson);
@@ -56,7 +66,8 @@ public class QuestionService {
 		delete("/api/questions/:id", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			long id = Long.parseLong(request.params("id"));
-			entityManager.remove(QuestionStore.getQuestionById(entityManager, id));
+			Question question = QuestionStore.getQuestionById(entityManager, id);
+			if(question != null) entityManager.remove(question);
 			return null;
 		}, Main.gson::toJson);
 	}
