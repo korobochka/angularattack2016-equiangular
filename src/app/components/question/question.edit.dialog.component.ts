@@ -125,4 +125,8 @@ export class QuestionEditDialogComponent {
     handleSubmitAnswer(answer) {
         answer.new = false;
     }
+
+    getQuestion() {
+        return this.question;
+    }
 }

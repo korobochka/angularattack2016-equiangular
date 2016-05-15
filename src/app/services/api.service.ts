@@ -117,6 +117,12 @@ export class API {
             .catch(this.handleError);
     }
 
+    addQuestion(question) : any {
+        return this.http
+            .post(this.questionsUrl, JSON.stringify(question))
+            .catch(this.handleError);
+    }
+
     submitAnswer(answers) : any {
         return this.http
             .post(this.submitAnswerURL, JSON.stringify(answers))

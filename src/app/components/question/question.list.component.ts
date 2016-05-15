@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuestionTagLineComponent } from './question.tagline.component';
 import { QuestionDeleteDialogComponent } from './question.delete.dialog.component';
 import { QuestionEditDialogComponent } from './question.edit.dialog.component';
@@ -69,6 +69,9 @@ export class QuestionListComponent {
     questions: Array<any> = [];
     questionsLoaded: boolean = false;
 
+    @ViewChild(QuestionEditDialogComponent)
+    editDialog: QuestionEditDialogComponent;
+
     constructor(private api: API, private elementRef: ElementRef) {
     }
 
@@ -78,6 +81,7 @@ export class QuestionListComponent {
             let result = el.querySelector(".mdl-data-table");
             if (result) result.removeAttribute("data-upgraded")
         }
+
         //componentHandler.upgradeAllRegistered();
     }
 
@@ -106,7 +110,10 @@ export class QuestionListComponent {
             dialogPolyfill.registerDialog(dialog);
         }
 
-        dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', function () {
+        dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', () => {
+            if (this.editDialog) {
+                this.addQuestion(this.editDialog.getQuestion());
+            }
             dialog.close();
         });
 
@@ -140,6 +147,15 @@ export class QuestionListComponent {
 
             dialog.showModal();
         }
+    }
+
+    addQuestion(question) {
+        this.api.addQuestion(question).subscribe((res) => {
+            console.log(res);
+
+            this.reloadList();
+        }, (err) => {
+        });
     }
 
     deleteQuestion(id) {
