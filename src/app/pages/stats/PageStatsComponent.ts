@@ -57,6 +57,10 @@ export class PageStatsComponent {
     }
 
     loadStats() {
+        this.getStats();
+    }
+
+    getStats() {
         this.api.getStats().subscribe((res) => {
             this.statsAvailable = (res != null);
 
