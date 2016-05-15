@@ -125,6 +125,17 @@ export class API {
             .catch(this.handleError);
     }
 
+    editQuestion(question) : any {
+        let requestOptions = new RequestOptions({
+            method: RequestMethod.Put,
+            body: JSON.stringify(question)
+        });
+
+        return this.http
+            .request(this.questionsUrl + '/' + question.id, requestOptions)
+            .catch(this.handleError);
+    }
+
     submitAnswer(answers) : any {
         return this.http
             .post(this.submitAnswerURL, JSON.stringify(answers))

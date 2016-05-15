@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
                     <thead>
                         <tr>
                             <th class="mdl-data-table__cell--non-numeric">Answers</th>
-                            <th class="mdl-data-table__cell--non-numeric">
+                            <th class="mdl-data-table__cell--non-numeric" style="width:0%">
                                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-button--colored mdl-js-ripple-effect" 
                                         (click)="handleAddAnswer()">
                                     <i class="material-icons">add</i>
@@ -43,7 +43,7 @@ import { Component } from '@angular/core';
                                     <input type="text" class="input-no-decoration" [(ngModel)]="answer.title" />
                                 </div>
                             </td>
-                            <td class="mdl-data-table__cell--non-numeric">
+                            <td class="mdl-data-table__cell--non-numeric" style="width:0%">
                                 <button class="mdl-button mdl-js-button mdl-button--icon" (click)="handleDeleteAnswer(answer)" *ngIf="!answer.new">
                                     <i class="material-icons">clear</i>
                                 </button>
@@ -130,7 +130,7 @@ export class QuestionEditDialogComponent {
     }
 
     getQuestion() {
-        if (this.question.skillsText != '') {
+        if (this.question.skillsText && (this.question.skillsText != '')) {
             let skills = this.question.skillsText.split("\n");
             this.question.skills = skills.map( (el) => {
                 return {

@@ -38,7 +38,7 @@ declare var dialogPolyfill: any;
         <question-tag-line [tags]="question.skills"></question-tag-line>
       </td>
       <td class="mdl-data-table__cell--non-numeric" style="width: 0%;">
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleEditQuestion()">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleEditQuestion(question)">
             <i class="material-icons">edit</i>
         </button>
 
@@ -105,6 +105,10 @@ export class QuestionListComponent {
     }
 
     handleEditQuestion(question) {
+        if (question) {
+            this.editDialog.question = Object.assign({}, question);
+        }
+
         let dialog : any = document.querySelector('#edit-question');
         if (!dialog.showModal) {
             dialogPolyfill.registerDialog(dialog);
@@ -112,7 +116,12 @@ export class QuestionListComponent {
 
         dialog.querySelector('button:not([disabled]).confirm').addEventListener('click', () => {
             if (this.editDialog) {
-                this.addQuestion(this.editDialog.getQuestion());
+                if (question) {
+                    this.editQuestion(this.editDialog.getQuestion());
+                }
+                else {
+                    this.addQuestion(this.editDialog.getQuestion());
+                }
             }
             dialog.close();
         });
@@ -151,6 +160,15 @@ export class QuestionListComponent {
 
     addQuestion(question) {
         this.api.addQuestion(question).subscribe((res) => {
+            console.log(res);
+
+            this.reloadList();
+        }, (err) => {
+        });
+    }
+
+    editQuestion(question) {
+        this.api.editQuestion(question).subscribe((res) => {
             console.log(res);
 
             this.reloadList();
