@@ -31,7 +31,6 @@ export class QuestionAnswerComponent {
     }
 
     ngOnInit() {
-        console.log(this.answer);
         if (this.multiply) {
             this.elementType = 'checkbox';
             this.elementInputClass = 'mdl-checkbox__input';
