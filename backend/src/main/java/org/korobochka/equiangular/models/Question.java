@@ -16,11 +16,12 @@ public class Question {
 
 	public float estimatedComplexity;
 
+	@Column(nullable = true)
 	public long timeLimit; // time limit in seconds
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	public Set<Skill> skills;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE)
 	public Set<Answer> answers;
 }

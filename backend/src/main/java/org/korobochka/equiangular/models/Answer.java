@@ -1,5 +1,7 @@
 package org.korobochka.equiangular.models;
 
+import org.korobochka.equiangular.Exclude;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,8 +19,9 @@ public class Answer {
 
 	public boolean isCorrect;
 
+	@Exclude
 	@ManyToOne(fetch = FetchType.EAGER)
-	public Question questions;
+	public Question question;
 
 	@Override
 	public boolean equals(Object o) {

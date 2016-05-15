@@ -1,4 +1,4 @@
-package org.korobochka.equiangular;
+package org.korobochka.equiangular.services;
 
 import com.github.scribejava.apis.LinkedInApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -7,6 +7,9 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.korobochka.equiangular.CustomException;
+import org.korobochka.equiangular.Main;
+import org.korobochka.equiangular.apidmodels.LIProfile;
 import org.korobochka.equiangular.models.User;
 import org.korobochka.equiangular.stores.UserStore;
 import org.slf4j.Logger;
@@ -77,11 +80,6 @@ public class AuthService {
 			session.removeAttribute("user");
 			return "OK";
 		});
-
-		get("/api/auth/profile", (request, response) -> {
-			checkUserAuthorization(request);
-			return getCurrentUser(request);
-		}, Main.gson::toJson);
 	}
 
 	public static Session checkUserAuthorization(Request request) throws CustomException {

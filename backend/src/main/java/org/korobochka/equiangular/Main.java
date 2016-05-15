@@ -1,10 +1,11 @@
 package org.korobochka.equiangular;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.http.HttpStatus;
-import org.korobochka.equiangular.models.Skill;
-import org.korobochka.equiangular.models.User;
+import org.korobochka.equiangular.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.lang.reflect.Modifier;
-import java.util.List;
 
 import static spark.Spark.*;
 
@@ -23,7 +23,18 @@ public class Main {
 	private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("equiangularDB");
 
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
-	static final Gson gson = new GsonBuilder()
+	public static final Gson gson = new GsonBuilder()
+			.setExclusionStrategies(new ExclusionStrategy() {
+				@Override
+				public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+					return fieldAttributes.getAnnotation(Exclude.class) != null;
+				}
+
+				@Override
+				public boolean shouldSkipClass(Class<?> aClass) {
+					return false;
+				}
+			})
 			.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)
 			.create();
 
@@ -98,6 +109,8 @@ public class Main {
 		TestService.initRoutes();
 		AuthService.initRoutes();
 		SkillService.initRoutes();
+		ProfileService.initRoutes();
+		QuestionService.initRoutes();
 }
 
 	private static void enableCORS(final String origin, final String methods, final String headers) {
