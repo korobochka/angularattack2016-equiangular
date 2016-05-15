@@ -1,11 +1,8 @@
 package org.korobochka.equiangular.services;
 
 import org.korobochka.equiangular.Main;
-import org.korobochka.equiangular.models.Answer;
-import org.korobochka.equiangular.models.Question;
+import org.korobochka.equiangular.models.*;
 
-import org.korobochka.equiangular.models.User;
-import org.korobochka.equiangular.models.UserResponse;
 import org.korobochka.equiangular.stores.QuestionStore;
 import org.korobochka.equiangular.stores.UserResponseStore;
 import org.slf4j.Logger;
@@ -33,24 +30,31 @@ public class TestService {
 	public static void initRoutes() {
 
 		Spark.post("/api/test/next_question", (request, response) -> {
-			//User user = getCurrentUser(request);
+			User user = getCurrentUser(request);
 			EntityManager entityManager = request.attribute("EM");
-			List<Question> questions = QuestionStore.getAllQuestions(entityManager);
+			List<Question> questions = QuestionStore.getUnansweredQuestions(entityManager, user);
+			Set<Skill> skills = user.skills;
 			questions = questions.stream()
 					.filter(question -> question.answers != null && question.answers.size() > 1)
-					.map(question -> {
-						entityManager.detach(question);
-						question.answers.forEach(answer -> answer.isCorrect = false);
-						return question;
+					.filter(question -> {
+						for(Skill skill : question.skills) {
+							if(skills.contains(skill)) return true;
+						}
+						return false;
 					}).collect(Collectors.toList());
 			Collections.shuffle(questions, new Random(System.currentTimeMillis())); // todo better
-			return questions.size() > 0 ? questions.get(0) : null;
+			if(questions.size() < 1) return null;
+			Question selected = questions.get(0);
+			selected.answers.forEach(answer -> {
+				entityManager.detach(answer);
+				answer.isCorrect = false;
+			});
+			return selected;
 		}, Main.gson::toJson);
 
 		post("/api/test/submit_answer", (request, response) -> {
 			User user = getCurrentUser(request);
 			EntityManager entityManager = request.attribute("EM");
-			log.info(request.body());
 			long[] answerIds = Main.gson.fromJson(request.body(), long[].class);
 			for(int i = 0; i < answerIds.length; i++) {
 				Answer answer = QuestionStore.getAnswerById(entityManager, answerIds[i]);

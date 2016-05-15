@@ -66,7 +66,7 @@ public class ProfileService {
 		get("/api/profile/:userId/stats", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			long userId = Long.parseLong(request.params("userId"));
-			if(userId != 0) throw new Exception("Cant modify other users skills");
+			if(userId != 0) throw new Exception("Cant see other users skills");
 			User user = getCurrentUser(request);
 			List<UserResponse> responseList = UserResponseStore.getAllUserResponses(entityManager, user);
 

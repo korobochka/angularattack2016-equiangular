@@ -3,6 +3,7 @@ package org.korobochka.equiangular.stores;
 import org.korobochka.equiangular.models.Answer;
 import org.korobochka.equiangular.models.Question;
 import org.korobochka.equiangular.models.Skill;
+import org.korobochka.equiangular.models.User;
 
 import javax.persistence.EntityManager;
 import java.util.HashSet;
@@ -21,6 +22,15 @@ public class QuestionStore {
 				.createQuery("select q from Question as q", Question.class)
 				.getResultList();
 	}
+
+	public static List<Question> getUnansweredQuestions(EntityManager entityManager, User user) {
+		return entityManager
+				.createQuery("select q from Question as q where not exists " +
+						"(select 1 from UserResponse a where a.question = q and a.user = :user)", Question.class)
+				.setParameter("user", user)
+				.getResultList();
+	}
+
 
 	public static Question createNewQuestion(EntityManager entityManager, String title, String body) {
 		Question question = new Question();
