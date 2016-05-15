@@ -31,7 +31,7 @@ public class AuthService {
 	//private static final String URL = "https://api.linkedin.com/v1/people/~:(id,formatted-name,skills)?format=json";
 	private static final String URL = "https://api.linkedin.com/v1/people/~:(id,formatted-name)?format=json";
 
-	private static final Properties secrets;
+	public static final Properties secrets;
 	private static final OAuth20Service LIService;
 
 	static {

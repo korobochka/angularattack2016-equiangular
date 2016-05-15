@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.File;
 import java.lang.reflect.Modifier;
 
 import static spark.Spark.*;
@@ -40,6 +41,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		externalStaticFileLocation("../dist");
+		if(new File("jetty.jks").exists()) secure("jetty.jks", AuthService.secrets.getProperty("jks.key"), null, null);
 		enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
 		// set up exception handling

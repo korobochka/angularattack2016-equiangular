@@ -10,3 +10,4 @@ dist
 .idea
 secret.properties
 backend/simpleDb
+*.jks
