@@ -41,8 +41,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		externalStaticFileLocation("../dist");
-		if(new File("jetty.jks").exists()) secure("jetty.jks", AuthService.secrets.getProperty("jks.key"), null, null);
-		enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
+		if(new File("jetty.jks").exists()) {
+			secure("jetty.jks", AuthService.secrets.getProperty("jks.key"), null, null);
+			enableCORS("https://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
+		} else enableCORS("http://equiangular.2016.angularattack.io", "POST, GET, DELETE, PUT, OPTIONS", "Content-Type");
 
 		// set up exception handling
 		exception(CustomException.class, (exception, request, response) -> {
