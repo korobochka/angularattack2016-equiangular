@@ -7,14 +7,14 @@ import { Component } from '@angular/core';
 <dialog class="mdl-dialog" id="edit-question" style="width: 50%">
     <h4 class="mdl-dialog__title">Question</h4>
     <div class="mdl-dialog__content">
-        <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
+        Title
+        <div class="mdl-textfield mdl-js-textfield" style="width:100%; padding: 0 0 1em 0; ">
             <input class="mdl-textfield__input" type="text" style="width:100%;" [(ngModel)]="question.title" id="question-edit-text">
-            <label class="mdl-textfield__label" for="question-edit-text">Title...</label>
         </div>
         
-        <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
+        Body
+        <div class="mdl-textfield mdl-js-textfield" style="width:100%; padding: 0 0 1em 0;">
             <textarea class="mdl-textfield__input" type="text" style="width:100%;" rows= "3" [(ngModel)]="question.body" id="question-edit-body" ></textarea>
-            <label class="mdl-textfield__label" for="question-edit-body">Text...</label>
         </div>
         
         <div class="two-col-container">
