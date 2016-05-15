@@ -96,3 +96,12 @@ footer{
     text-align: right;
 }
 
+
+.mdl-button--tiny-fab {
+    height: 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+}
+.mdl-button--tiny-fab i.material-icons {
+    font-size: 14px !important;
+}

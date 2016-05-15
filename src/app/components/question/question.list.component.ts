@@ -14,10 +14,11 @@ declare var componentHandler: any;
 
   <thead *ngIf="questionsLoaded">
     <tr>
-      <th class="mdl-data-table__cell--non-numeric" style="width: 50%;">Title</th>
+      <th class="mdl-data-table__cell--non-numeric" style="width: 75%;">Title</th>
       <th>Complexity</th>
       <th>No. of<br />answers</th>
       <th class="mdl-data-table__cell--non-numeric" style="width: 25%;">Skills</th>
+      <th class="mdl-data-table__cell--non-numeric"></th>
     </tr>
   </thead>
 
@@ -28,6 +29,15 @@ declare var componentHandler: any;
       <td>{{question.answers.length}}</td>
       <td class="mdl-data-table__cell--non-numeric">
         <question-tag-line [tags]="question.skills"></question-tag-line>
+      </td>
+      <td class="mdl-data-table__cell--non-numeric" style="width: 0%;">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleEditQuestion()">
+            <i class="material-icons">edit</i>
+        </button>
+
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-js-ripple-effect" (click)="handleDeleteQuestion()">
+            <i class="material-icons">clear</i>
+        </button>
       </td>
     </tr>
   </tbody>
@@ -63,5 +73,13 @@ export class QuestionListComponent {
     }
 
     ngOnChanges() {
+    }
+
+    handleEditQuestion() {
+        // TODO: Edit handler
+    }
+
+    handleDeleteQuestion() {
+        // TODO: Delete handler
     }
 }
