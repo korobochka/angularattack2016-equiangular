@@ -9,11 +9,8 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'about',
     template: `
-<md-card>
     <h1>Title of our Application</h1>
     Few words about funcions, how to install and so forth
-</md-card>
-
   `
 })
 export class PageAboutComponent {

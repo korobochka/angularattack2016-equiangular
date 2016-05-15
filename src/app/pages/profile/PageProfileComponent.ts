@@ -4,7 +4,6 @@ import { API } from '../../services/api.service';
 @Component({
     selector: 'md',
     template: `
-  <md-card>
     <h1 class="mdl-typography--display-3">
         Profile
         <span class="mdl-typography--display-1">
@@ -74,7 +73,6 @@ import { API } from '../../services/api.service';
             </table>
         </div>
     </div>
-  </md-card>
 
   `
 })
