@@ -24,9 +24,11 @@ public class QuestionService {
 		// todo delete
 		get("/api/questions/addrandom", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
-			Question question = QuestionStore.createNewQuestion(entityManager, "Random title " + System.currentTimeMillis(), "Random body");
+			Question question = QuestionStore.createNewQuestion(entityManager,
+					"Random title " + System.currentTimeMillis(),
+					"Random body " + System.currentTimeMillis());
 			for(int i = 0; i < 4; i++) {
-				Answer answer = QuestionStore.createAnswer(entityManager, "Answer body " + i, (i == 0));
+				Answer answer = QuestionStore.createAnswer(entityManager, "Answer body " + i + " " + System.currentTimeMillis(), (i == 0));
 				QuestionStore.attachAnswer(question, answer);
 			}
 			QuestionStore.attachSkill(question, SkillStore.getRandomSkill(entityManager));

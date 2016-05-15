@@ -22,7 +22,7 @@ public class ProfileService {
 
 	public static void initRoutes() {
 
-		Spark.get("/api/profile/:userId", (request, response) -> {
+		get("/api/profile/:userId", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			long userId = Long.parseLong(request.params("userId"));
 			if(userId == 0) return getCurrentUser(request);
@@ -32,6 +32,7 @@ public class ProfileService {
 		get("/api/profile/:userId/skills", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			long userId = Long.parseLong(request.params("userId"));
+			if(userId == 0) userId = getCurrentUser(request).id;
 			User user = UserStore.getUserById(entityManager, userId);
 			return user.skills;
 		}, Main.gson::toJson);
