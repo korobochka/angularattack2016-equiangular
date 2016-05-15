@@ -1,10 +1,13 @@
 package org.korobochka.equiangular.services;
 
 import org.korobochka.equiangular.Main;
+import org.korobochka.equiangular.models.Answer;
 import org.korobochka.equiangular.models.Question;
 
 import org.korobochka.equiangular.models.User;
+import org.korobochka.equiangular.models.UserResponse;
 import org.korobochka.equiangular.stores.QuestionStore;
+import org.korobochka.equiangular.stores.UserResponseStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -14,6 +17,7 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.korobochka.equiangular.services.AuthService.getCurrentUser;
@@ -46,8 +50,14 @@ public class TestService {
 		post("/api/test/submit_answer", (request, response) -> {
 			User user = getCurrentUser(request);
 			EntityManager entityManager = request.attribute("EM");
-			// todo
-			return "Question saved successfully";
+			log.info(request.body());
+			long[] answerIds = Main.gson.fromJson(request.body(), long[].class);
+			for(int i = 0; i < answerIds.length; i++) {
+				Answer answer = QuestionStore.getAnswerById(entityManager, answerIds[i]);
+				UserResponse userResponse = UserResponseStore.recordUserAnswerToQuestion(entityManager, user, answer);
+				userResponse.elapsedTime = 10;
+			}
+			return null;
 		}, Main.gson::toJson);
 	}
 }

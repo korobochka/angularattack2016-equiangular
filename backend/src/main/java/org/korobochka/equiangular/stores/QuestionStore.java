@@ -50,4 +50,8 @@ public class QuestionStore {
 		entityManager.persist(answer);
 		return answer;
 	}
+
+	public static Answer getAnswerById(EntityManager entityManager, long id) {
+		return entityManager.find(Answer.class, id);
+	}
 }
