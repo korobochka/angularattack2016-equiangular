@@ -13,6 +13,7 @@ export class API {
     logoutURL : string;
     loginLinkedInURL : string;
     profileURL : string;
+    statsURL : string;
     questionsUrl: string;
     nextQuestionURL : string;
     submitAnswerURL : string;
@@ -45,6 +46,7 @@ export class API {
         this.logoutURL = this.API_URL + '/auth/logout';
         this.loginLinkedInURL = this.API_URL + '/auth/li';
         this.profileURL = this.API_URL + '/profile/0';
+        this.statsURL = this.profileURL + '/stats';
         this.nextQuestionURL = this.API_URL + '/test/next_question';
         this.submitAnswerURL = this.API_URL + '/test/submit_answer';
         this.questionsUrl = this.API_URL + '/questions';
@@ -129,6 +131,14 @@ export class API {
             .post(this.nextQuestionURL, '')
             .map(request => request.json())
             .catch(this.handleError);
+    }
+
+    getStats() : any {
+        return this.http
+            .get(this.statsURL)
+            .map(request => request.json())
+            .catch(this.handleError);
+
     }
 
     handleError(error) {
