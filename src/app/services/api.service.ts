@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HTTP_PROVIDERS, Http } from '@angular/http';
+import { HTTP_PROVIDERS, Http, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -50,14 +50,29 @@ export class API {
     }
 
     deleteSkill(tag) : any {
+        // Workaround implementation
+        // TODO: Add support for tag ID as part of request URL as HTTP's DELETE method doesn't support body
+
+        let requestOptions = new RequestOptions({
+            method: RequestMethod.Delete,
+            body: tag
+        });
+
         return this.http
-            .delete(this.skillsURL)
+            .request(this.skillsURL, requestOptions)
             .catch(this.handleError);
+    }
+
+    submitAnswer() : any {
+    }
+
+    nextQuestion() : any {
     }
 
     handleError(error) {
         let err = JSON.parse(error['_body']);
         err.error = true;
+        // TODO: Add nice error handling and display
         console.log(err);
         return Observable.throw(err);
     }
