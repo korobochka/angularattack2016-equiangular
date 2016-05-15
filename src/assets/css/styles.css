@@ -25,6 +25,7 @@ app {
 }
 .content-container {
     height: 100%;
+    padding: 0 16px;
 }
 md-content {
     display: flex;
@@ -46,6 +47,10 @@ footer{
 }
 
 
+.question-container > question-title > h3 {
+    padding: 0 16px;
+    margin-bottom: 0;
+}
 .question-answers-container {
     padding: 20px;
 }

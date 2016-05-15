@@ -12,12 +12,10 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
         QuestionAnswersComponent
     ],
     template: `
-<div *ngIf="!noQuestion">
-    <div class="mdl-cell mdl-cell--12-col">
-        <question-title>
-            {{question.title}}
-        </question-title>
-    </div>
+<div *ngIf="!noQuestion" class="question-container">
+    <question-title>
+        {{question.title}}
+    </question-title>
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
@@ -47,9 +45,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
 </div>
 
 <div *ngIf="noQuestion">
-    <div class="mdl-cell mdl-cell--12-col">
-        There are no question available
-    </div>
+    There are no question available
 </div>
 
   `

@@ -4,10 +4,10 @@ import { Component } from '@angular/core';
     selector: 'question-title',
     inputs: [ 'title' ],
     template: `
-        <h4>
+        <h3>
           {{title}}
           <ng-content></ng-content>
-        </h4>
+        </h3>
   `
 })
 export class QuestionTitleComponent {
