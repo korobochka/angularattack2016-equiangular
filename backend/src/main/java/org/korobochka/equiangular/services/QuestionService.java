@@ -63,6 +63,29 @@ public class QuestionService {
 			return question;
 		}, Main.gson::toJson);
 
+		put("/api/questions/:id", (request, response) -> {
+			EntityManager entityManager = request.attribute("EM");
+			long id = Long.parseLong(request.params("id"));
+			Question question = QuestionStore.getQuestionById(entityManager, id);
+			Question questionNew = Main.gson.fromJson(request.body(), Question.class);
+
+			question.title = questionNew.title;
+			question.body = questionNew.body;
+			question.estimatedComplexity = questionNew.estimatedComplexity;
+			question.timeLimit = questionNew.timeLimit;
+
+			Set<Skill> skills = new HashSet<>();
+			questionNew.skills.forEach(s -> { skills.add(SkillStore.getSkillByTitle(entityManager, s.title)); });
+			question.skills = skills;
+
+			Set<Answer> answers = questionNew.answers;
+			question.answers.forEach(entityManager::remove);
+			question.answers = new HashSet<>();
+			answers.forEach(a -> { QuestionStore.attachAnswer(question, QuestionStore.createAnswer(entityManager, a.body, a.isCorrect)); });
+
+			return question;
+		}, Main.gson::toJson);
+
 		delete("/api/questions/:id", (request, response) -> {
 			EntityManager entityManager = request.attribute("EM");
 			long id = Long.parseLong(request.params("id"));
