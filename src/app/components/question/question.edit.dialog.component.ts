@@ -22,8 +22,8 @@ import { Component } from '@angular/core';
                 <table class="mdl-data-table mdl-data-table-dense mdl-js-data-table mdl-shadow--2dp" style="width:100%">
                     <thead>
                         <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Answers</th>
-                            <th class="mdl-data-table__cell--non-numeric" style="width:0%">
+                            <th class="mdl-data-table__cell--non-numeric" style="width:100%">Answers</th>
+                            <th class="mdl-data-table__cell--non-numeric">
                                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--tiny-fab mdl-button--colored mdl-js-ripple-effect" 
                                         (click)="handleAddAnswer()">
                                     <i class="material-icons">add</i>
@@ -36,11 +36,11 @@ import { Component } from '@angular/core';
                         <tr *ngFor="let answer of question.answers">
                             <td class="mdl-data-table__cell--non-numeric">
                                 <span *ngIf="!answer.new">
-                                    {{answer.title}}
+                                    {{answer.body}}
                                 </span>
 
                                 <div *ngIf="answer.new">
-                                    <input type="text" class="input-no-decoration" [(ngModel)]="answer.title" />
+                                    <input type="text" class="input-no-decoration" [(ngModel)]="answer.body" />
                                 </div>
                             </td>
                             <td class="mdl-data-table__cell--non-numeric" style="width:0%">
@@ -99,13 +99,6 @@ export class QuestionEditDialogComponent {
         }
     }
 
-    setQuestion(question) {
-        this.question = Object.assign({}, question);
-        if (Array.isArray(this.question.skills)) {
-            this.question.skillsText = this.question.skills.map( (el) => el.title ).join("\n");
-        }
-    }
-
     handleAddAnswer() {
         let answers = this.question.answers.slice();
 
@@ -116,13 +109,11 @@ export class QuestionEditDialogComponent {
         });
 
         answers.push({
-            title: 'new',
+            body: 'new',
             correct: false,
             new: true
         });
         this.question.answers = answers;
-
-        console.log(this.question.answers);
     }
 
     handleDeleteAnswer(answer) {
@@ -155,11 +146,19 @@ export class QuestionEditDialogComponent {
         this.question.answers = this.question.answers.map( (el) => {
             return {
                 id: ++index,
-                body: el.title,
+                body: el.body,
                 isCorrect: el.correct
             };
         });
 
         return this.question;
+    }
+
+    setQuestion(question) {
+        this.question = Object.assign({}, question);
+        console.log('setQuestion', question);
+        if (Array.isArray(this.question.skills)) {
+            this.question.skillsText = this.question.skills.map( (el) => el.title ).join("\n");
+        }
     }
 }
