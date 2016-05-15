@@ -44,7 +44,14 @@ export class QuestionAnswersComponent {
         }
     }
 
-    handleChange(e, v) {
+    handleChange(answer) {
+        if (!this.multiply) {
+            this.answers.map( (e) => {
+                e.checked = (e == answer);
+                return e;
+            });
+        }
+
         let checkedAnwers = this.answers.filter( el => el.checked );
         this.onChange.emit(checkedAnwers);
     }

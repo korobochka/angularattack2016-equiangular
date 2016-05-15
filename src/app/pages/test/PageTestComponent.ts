@@ -37,7 +37,7 @@ import { QuestionAnswersComponent } from '../../components/question/question.ans
             </span>
 
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" 
-                    (click)="handleAddSkill()"
+                    (click)="handleSubmitAnswers()"
                     [disabled]="!submitAnswerEnabled">
                 <i class="material-icons">done</i> Submit Answer
             </button>
@@ -53,12 +53,12 @@ export class PageTestComponent {
     profile: any = {}
     add_skill_name: string = '';
     timeLeft: any = 0;
-    private timeExpired: boolean = false;
-    private timerId: any = 0;
     questionTimeStart: Date;
     questionTimeLeft: string = '';
     question: any = {};
     questionLoaded: boolean = false;
+    private timeExpired: boolean = false;
+    private timerId: any = 0;
 
     constructor(private api: API) {
     }
@@ -82,17 +82,17 @@ export class PageTestComponent {
     }
 
     prepareTimers() {
+        if (this.timerId) clearInterval(this.timerId);
+
         if (Number(this.question.timeLimit) > 0) {
             this.questionTimeStart = new Date();
 
-            if (this.timerId) clearInterval(this.timerId);
             this.timeExpired = false;
 
             this.timerId = setInterval(() => {
                 if (Number(this.question.timeLimit) > 0) {
                     let currentDate = new Date();
                     this.timeLeft = Number(this.question.timeLimit) - Math.floor((currentDate.getTime() - this.questionTimeStart.getTime()) / 1000);
-                    console.log(this.timeLeft);
 
                     if (this.timeLeft > 0) {
                         let seconds = this.timeLeft % 60;
@@ -112,5 +112,18 @@ export class PageTestComponent {
 
     handleAnswersChange(answers) {
         this.submitAnswerEnabled = (answers.length > 0);
+    }
+
+    handleSubmitAnswers() {
+        let checkedAnwers = this.question.answers.filter( el => el.checked );
+        let requestAnswers = checkedAnwers.map( el => el['id'] );
+
+        if (requestAnswers.length > 0) {
+            this.api.submitAnswer(requestAnswers).subscribe((res) => {
+                console.log(res);
+                this.loadQuestion();
+            }, (err) => {
+            });
+        }
     }
 }
