@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
-import { QuestionComponent} from '../../components/question/question.component';
+import { QuestionComponent } from '../../components/question/question.component';
+import { QuestionTitleComponent } from '../../components/question/question.title.component';
+import { QuestionAnswersComponent } from '../../components/question/question.answers.component';
 
 @Component({
     selector: 'md',
-    directives: [QuestionComponent],
+    directives: [
+        QuestionComponent,
+        QuestionTitleComponent,
+        QuestionAnswersComponent
+    ],
     template: `
-    <h1>
-      {{questionTitle}}
-    </h1>
+    <question-title>
+        {{questionTitle}}
+    </question-title>
     
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
@@ -18,7 +24,8 @@ import { QuestionComponent} from '../../components/question/question.component';
         </div>
 
         <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-            Answers here
+            <question-answers [answers]="questionAnswers">
+            </question-answers>
         </div>
 
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="handleAddSkill()" style="float: right">
@@ -34,13 +41,25 @@ export class PageTestComponent {
     profile: any = {}
     add_skill_name: string = '';
     questionTitle = 'Some Title';
+    questionAnswers = [
+        {
+            body: 'Option 1'
+        },
+        {
+            body: 'Option 2'
+        },
+        {
+            body: 'Option 3'
+        },
+        {
+            body: 'Option 4'
+        }
+    ];
     questionBody = `
-            <markdown>
-                ### H3
-                Some text here
-                #### Emphasis
-                *single asterisks*
-            </markdown>
+            ### H3
+            Some text here
+            #### Emphasis
+            *single asterisks*
     `;
 
     constructor(private api: API) {

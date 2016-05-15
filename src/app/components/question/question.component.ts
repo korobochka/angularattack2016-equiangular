@@ -8,10 +8,10 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'question',
-    inputs: [ 'title' ],
+    inputs: [ 'title', 'body' ],
     template: `
-            {{title}}
             <markdown>
+                {{body}}
                 <ng-content></ng-content>
             </markdown>
   `
