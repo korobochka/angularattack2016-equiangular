@@ -138,6 +138,7 @@ public class Main {
 			}
 			response.header("Access-Control-Request-Method", methods);
 			response.header("Access-Control-Allow-Headers", headers);
+			response.header("Access-Control-Allow-Credentials", "true");
 		});
 	}
 }
