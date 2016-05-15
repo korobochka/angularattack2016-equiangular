@@ -1,9 +1,10 @@
 import { Component, ViewEncapsulation, Inject } from '@angular/core';
-import { RouteConfig, Router } from '@angular/router-deprecated';
+import { RouteConfig, Router, Location } from '@angular/router-deprecated';
 
 import { AppState } from './app.service';
 import { RouterActive } from './router-active';
 import { ErrorNotificationsComponent } from './components/error-notifications/error.notifications.component';
+import { API } from './services/api.service';
 
 /*
  * App Component
@@ -119,10 +120,19 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
 export class App {
     loading = false;
 
-    constructor(public appState: AppState) {
+    constructor(private api: API, public appState: AppState, public router:Router) {
         appState['loggedin'] = false;
+        this.router.subscribe(this.onRouteChanged);
     }
 
     ngOnInit() {
+        this.api.profile().subscribe((res) => {
+            this.appState['loggedin'] = true;
+        }, (err) => {
+        });
+    }
+
+    onRouteChanged(path) {
+        console.log('route changed', path);
     }
 }
