@@ -51,7 +51,7 @@ public class Main {
 		exception(Exception.class, (exception, request, response) -> {
 			Throwable t = exception;
 			while(t != null) {
-				System.out.println(t.toString());
+				log.error("Unknown exception: ", t);
 				t = t.getCause();
 			}
 			response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);

@@ -16,17 +16,17 @@ public class SkillService {
 
 	public static void initRoutes() {
 		Spark.get("/api/skills", (req, res) -> {
-			res.redirect("/api/profile/:userId/skills");
+			res.redirect("/api/profile/0/skills");
 			return null;
 		}, Main.gson::toJson);
 
 		post("/api/skills", (req, res) -> {
-			res.redirect("/api/profile/:userId/skills");
+			res.redirect("/api/profile/0/skills");
 			return null;
 		}, Main.gson::toJson);
 
 		delete("/api/skills/:id", (req, res) -> {
-			res.redirect("/api/profile/:userId/skills/" + req.params("id"));
+			res.redirect("/api/profile/0/skills/" + req.params("id"));
 			return null;
 		}, Main.gson::toJson);
 	}
