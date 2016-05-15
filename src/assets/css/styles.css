@@ -21,6 +21,7 @@ button.active:hover{
 }
 app {
     height: 100%;
+    display: block;
 }
 .content-container {
     height: 100%;
@@ -63,3 +64,4 @@ footer{
 .text-right {
     text-align: right;
 }
+
