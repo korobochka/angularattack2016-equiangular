@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, Inject } from '@angular/core';
 import { RouteConfig, Router } from '@angular/router-deprecated';
 
 import { AppState } from './app.service';
@@ -45,13 +45,13 @@ import { ErrorNotificationsComponent } from './components/error-notifications/er
             API
           </button>
 
-          <button md-button router-active [routerLink]=" ['Login'] ">
+          <button *ngIf="!appState.loggedIn" md-button router-active [routerLink]=" ['Login'] ">
             Login
           </button>
 
           <span class="fill"></span>
 
-          <button md-button router-active [routerLink]=" ['Logout'] ">
+          <button *ngIf="appState.loggedIn" md-button router-active [routerLink]=" ['Logout'] ">
             Logout
           </button>
       </md-toolbar>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+import { AppState } from '../../app.service';
 
 @Component({
     selector: 'page-login',
@@ -14,7 +15,7 @@ import { API } from '../../services/api.service';
   `
 })
 export class PageLoginComponent {
-    constructor(private api: API) {
+    constructor(private api: API, private appState: AppState) {
     }
 
     ngOnInit() {

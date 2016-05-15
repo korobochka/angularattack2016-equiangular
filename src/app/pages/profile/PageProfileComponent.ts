@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { API } from '../../services/api.service';
+import { AppState } from '../..//app.service';
 declare var componentHandler: any;
 
 @Component({
@@ -86,10 +87,11 @@ export class PageProfileComponent {
     pendingAddSkills: string[] = [];
     pendingRemovalSkills: string[] = [];
 
-    constructor(private api: API) {
+    constructor(private api: API, private appState: AppState) {
         this.api.profile().subscribe((res) => {
             this.profile = res;
             console.log('profile', this.profile);
+            this.appState.loggedIn = true;
         }, (err) => {
         });
     }
